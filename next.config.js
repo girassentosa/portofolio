@@ -26,9 +26,8 @@ const nextConfig = {
   
   // Enable experimental features for performance
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'date-fns', 'lodash'],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;

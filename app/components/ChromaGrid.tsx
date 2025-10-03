@@ -34,8 +34,8 @@ const ChromaGrid = ({
 }: ChromaGridProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const fadeRef = useRef<HTMLDivElement>(null);
-  const setX = useRef<((value: number) => void) | null>(null);
-  const setY = useRef<((value: number) => void) | null>(null);
+  const setX = useRef<Function | null>(null);
+  const setY = useRef<Function | null>(null);
   const pos = useRef({ x: 0, y: 0 });
 
   const demo: ChromaGridItem[] = [

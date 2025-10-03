@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import md5 from 'js-md5';
+const md5 = require('js-md5');
 import { getUserByUsername } from '@/lib/dbHelper';
 
 export async function POST(request: NextRequest) {

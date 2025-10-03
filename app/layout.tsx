@@ -3,14 +3,14 @@ import "./globals.css";
 import ConditionalHeader from "./components/ConditionalHeader";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "./fonts/GeistVF.woff2",
   variable: "--font-geist-sans",
   weight: "100 900",
   display: "swap",
   preload: true,
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "./fonts/GeistMonoVF.woff2",
   variable: "--font-geist-mono",
   weight: "100 900",
   display: "swap",

@@ -12,7 +12,7 @@ import { degToRad } from 'three/src/math/MathUtils.js';
 function extendMaterial(BaseMaterial: any, cfg: any) {
   const physical = THREE.ShaderLib.physical;
   const { vertexShader: baseVert, fragmentShader: baseFrag, uniforms: baseUniforms } = physical;
-  const baseDefines = physical.defines ?? {};
+  const baseDefines = (physical as any).defines ?? {};
 
   const uniforms = THREE.UniformsUtils.clone(baseUniforms);
 
