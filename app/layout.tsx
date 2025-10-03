@@ -1,18 +1,17 @@
-import localFont from "next/font/local";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ConditionalHeader from "./components/ConditionalHeader";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff2",
+const inter = Inter({
+  subsets: ['latin'],
   variable: "--font-geist-sans",
-  weight: "100 900",
   display: "swap",
   preload: true,
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff2",
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
   variable: "--font-geist-mono",
-  weight: "100 900",
   display: "swap",
   preload: true,
 });
@@ -41,7 +40,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-black`}
         suppressHydrationWarning
       >
         <ConditionalHeader />
