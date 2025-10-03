@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Portfolio Website - Taji Jadda Giras Sentosa
 
-## Getting Started
+Portfolio website modern dengan admin panel lengkap, dibangun menggunakan Next.js 15, TypeScript, dan Tailwind CSS.
 
-First, run the development server:
+## ✨ Fitur
+
+### 🌟 **Halaman Utama (Portfolio)**
+- ✅ **Loading Screen** dengan animasi progress bar
+- ✅ **Animated Background** menggunakan Three.js (Beams effect)
+- ✅ **Scroll Animations** dengan Framer Motion
+- ✅ **Responsive Design** untuk semua devices
+- ✅ **Sections:**
+  - Home - Profil & statistik
+  - About - Informasi personal & pendekatan
+  - Skills - Daftar keahlian dengan animasi
+  - Projects - Portfolio proyek
+  - Contact - Form kontak & informasi
+
+### 🔐 **Admin Panel**
+- ✅ **Authentication System** (Login & Register)
+- ✅ **Protected Routes** dengan session management
+- ✅ **Dashboard** dengan statistik
+- ✅ **CRUD Management:**
+  - Home Section (Title, Subtitle, Description, Stats)
+  - About Section (Who Am I, My Approach, Personal Info)
+  - Skills Management
+  - Projects Management
+- ✅ **Responsive Admin Panel** untuk mobile & desktop
+
+## 🚀 Tech Stack
+
+- **Framework:** Next.js 15.1.6 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **3D Graphics:** Three.js, React Three Fiber
+- **Database:** JSON-based (lib/db.json)
+- **Authentication:** Cookie-based sessions with MD5 hashing
+
+## 📦 Installation
 
 ```bash
+# Clone repository
+git clone [repository-url]
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Configuration
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Database
+Data portofolio disimpan di `lib/db.json`. Struktur:
+```json
+{
+  "home": { ... },
+  "about": { ... },
+  "skills": [ ... ],
+  "projects": [ ... ],
+  "users": [ ... ]
+}
+```
 
-## Learn More
+### Admin Access
+- **Login:** `/admin/login`
+- **Register:** `/admin/register`
+- **Dashboard:** `/admin/dashboard`
 
-To learn more about Next.js, take a look at the following resources:
+Default credentials dapat dibuat melalui halaman register.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📁 Struktur Proyek
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+portofolio-diri/
+├── app/
+│   ├── admin/              # Admin panel
+│   │   ├── login/
+│   │   ├── register/
+│   │   └── dashboard/
+│   ├── api/                # API routes
+│   │   ├── admin/          # Admin CRUD APIs
+│   │   ├── auth/           # Authentication APIs
+│   │   └── portfolio/      # Public portfolio API
+│   ├── components/         # React components
+│   ├── fonts/              # Custom fonts
+│   ├── globals.css         # Global styles
+│   ├── layout.tsx          # Root layout
+│   └── page.tsx            # Homepage
+├── lib/
+│   ├── db.json             # JSON database
+│   └── dbHelper.ts         # Database helpers
+├── public/
+│   └── images/             # Images & CV
+└── ...config files
+```
 
-## Deploy on Vercel
+## 🎨 Components
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Main Components
+- `Beams` - 3D animated background
+- `ResponsiveBeams` - Responsive wrapper for Beams
+- `ClientWrapper` - Loading screen wrapper
+- `LoadingScreen` - Progress bar animation
+- `ScrollReveal` - Scroll-triggered animations
+- `StaggeredReveal` - Staggered grid animations
+- `HomeReveal` - Home section animations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### UI Components
+- `Header` - Navigation header
+- `Footer` - Footer section
+- `ProfileCard` - Profile card dengan stats
+- `SkillCard` - Skill item card
+- `ContactCard` - Contact information
+- `ContactForm` - Contact form
+- `MagicBento` - About section layout
+- `CVDownloadModal` - CV download modal
+
+## 🔐 Security
+
+- Password hashing menggunakan MD5
+- Session management dengan cookies
+- Protected admin routes
+- Input validation pada forms
+
+## 📱 Responsive Design
+
+Website fully responsive dengan breakpoints:
+- **Mobile:** < 640px
+- **Tablet:** 640px - 1024px
+- **Desktop:** ≥ 1024px
+
+## 🎯 Performance
+
+- **Lazy Loading** components dengan `next/dynamic`
+- **Image Optimization** dengan Next.js Image
+- **Font Optimization** dengan `next/font`
+- **SWC Minification** untuk production
+- **CSS Optimization** enabled
+
+## 📄 Documentation
+
+Lihat `PANDUAN_ADMIN.md` untuk dokumentasi lengkap admin panel.
+
+## 🛠️ Development
+
+```bash
+# Development mode
+npm run dev
+
+# Build production
+npm run build
+
+# Run production build
+npm start
+
+# Lint code
+npm run lint
+```
+
+## 📝 License
+
+Private portfolio project.
+
+## 👨‍💻 Developer
+
+**Taji Jadda Giras Sentosa**
+- Portfolio: [Your URL]
+- Email: [Your Email]
+
+---
+
+Built with ❤️ using Next.js & TypeScript

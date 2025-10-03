@@ -1,0 +1,209 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "5f4dcc3b5aa765d61d8327deb882cf99",
+      "email": "admin@example.com",
+      "createdAt": "2025-01-01T00:00:00.000Z"
+    }
+  ],
+  "home": {
+    "title": "Taji Jadda Giras Sentosa",
+    "subtitle": "Halo, saya",
+    "description": "Berpengalaman dalam pengembangan web dan IoT, saya terbiasa merancang solusi yang responsif, cepat, dan sesuai kebutuhan pengguna. Menguasai JavaScript sebagai bahasa utama untuk membangun aplikasi modern dan interaktif.",
+    "image": "/images/profile.jpg",
+    "stats": [
+      {
+        "value": "2 Tahun",
+        "label": "Pengalaman"
+      },
+      {
+        "value": "JavaScript",
+        "label": "Bahasa Utama"
+      },
+      {
+        "value": "10 Proyek",
+        "label": "Total Proyek"
+      },
+      {
+        "value": "3.68/4.00",
+        "label": "IPK"
+      }
+    ]
+  },
+  "about": {
+    "whoAmI": "Saya adalah seorang Web Developer dan IoT Specialist yang passionate dalam menciptakan solusi teknologi inovatif. Dengan pengalaman 2 tahun di bidang pengembangan web dan Internet of Things, saya fokus pada pembuatan aplikasi yang tidak hanya fungsional, tetapi juga memberikan pengalaman pengguna yang luar biasa.",
+    "myApproach": "Pendekatan saya dalam setiap project adalah mengutamakan kualitas dan detail. Saya percaya bahwa teknologi harus dapat memecahkan masalah nyata dan memberikan nilai tambah yang signifikan. Dengan menggabungkan kreativitas dan kemampuan teknis, saya berusaha menciptakan solusi yang elegant dan efisien.",
+    "personalInfo": {
+      "name": "Taji Jadda Giras Sentosa",
+      "location": "Indonesia",
+      "email": "tajijaddagirassntosa@gmail.com",
+      "phone": "081265098103",
+      "education": "Informatika - IPK 3.68/4.00"
+    },
+    "image": "/images/profile1.jpg"
+  },
+  "skills": [
+    {
+      "id": 1,
+      "name": "Visual Studio Code",
+      "category": "Code Editor",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg",
+      "color": "#007ACC"
+    },
+    {
+      "id": 2,
+      "name": "React.js",
+      "category": "JavaScript Library",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+      "color": "#61DAFB"
+    },
+    {
+      "id": 3,
+      "name": "Next.js",
+      "category": "React Framework",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+      "color": "#FFFFFF"
+    },
+    {
+      "id": 4,
+      "name": "Tailwind CSS",
+      "category": "CSS Framework",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
+      "color": "#06B6D4"
+    },
+    {
+      "id": 5,
+      "name": "Bootstrap",
+      "category": "CSS Framework",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
+      "color": "#7952B3"
+    },
+    {
+      "id": 6,
+      "name": "JavaScript",
+      "category": "Programming Language",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+      "color": "#F7DF1E"
+    },
+    {
+      "id": 7,
+      "name": "Node.js",
+      "category": "JavaScript Runtime",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+      "color": "#339933"
+    },
+    {
+      "id": 8,
+      "name": "GitHub",
+      "category": "Version Control",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
+      "color": "#FFFFFF"
+    },
+    {
+      "id": 9,
+      "name": "Firebase",
+      "category": "Backend Platform",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+      "color": "#FFCA28"
+    },
+    {
+      "id": 10,
+      "name": "HTML5",
+      "category": "Markup Language",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+      "color": "#E34F26"
+    },
+    {
+      "id": 11,
+      "name": "CSS3",
+      "category": "Style Sheet Language",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+      "color": "#1572B6"
+    },
+    {
+      "id": 12,
+      "name": "TypeScript",
+      "category": "Programming Language",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+      "color": "#3178C6"
+    },
+    {
+      "id": 13,
+      "name": "PHP",
+      "category": "Programming Language",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg",
+      "color": "#777BB4"
+    },
+    {
+      "id": 14,
+      "name": "MySQL",
+      "category": "Database System",
+      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+      "color": "#4479A1"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "title": "Dashboard Analytics",
+      "subtitle": "Web Application",
+      "handle": "Next.js + TypeScript",
+      "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=500&fit=crop",
+      "borderColor": "#3B82F6",
+      "gradient": "linear-gradient(145deg, #3B82F6, #000)",
+      "url": "https://github.com"
+    },
+    {
+      "id": 2,
+      "title": "E-Commerce Platform",
+      "subtitle": "Full Stack Project",
+      "handle": "React + Node.js",
+      "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=500&fit=crop",
+      "borderColor": "#10B981",
+      "gradient": "linear-gradient(210deg, #10B981, #000)",
+      "url": "https://github.com"
+    },
+    {
+      "id": 3,
+      "title": "Task Management",
+      "subtitle": "Productivity App",
+      "handle": "React + Firebase",
+      "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=500&fit=crop",
+      "borderColor": "#F59E0B",
+      "gradient": "linear-gradient(165deg, #F59E0B, #000)",
+      "url": "https://github.com"
+    },
+    {
+      "id": 4,
+      "title": "IoT Dashboard",
+      "subtitle": "Smart Home System",
+      "handle": "Arduino + React",
+      "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=500&fit=crop",
+      "borderColor": "#EF4444",
+      "gradient": "linear-gradient(195deg, #EF4444, #000)",
+      "url": "https://github.com"
+    },
+    {
+      "id": 5,
+      "title": "Portfolio Website",
+      "subtitle": "Personal Branding",
+      "handle": "Next.js + Tailwind",
+      "image": "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=500&fit=crop",
+      "borderColor": "#8B5CF6",
+      "gradient": "linear-gradient(225deg, #8B5CF6, #000)",
+      "url": "https://github.com"
+    },
+    {
+      "id": 6,
+      "title": "Chat Application",
+      "subtitle": "Real-time Messaging",
+      "handle": "Socket.io + Express",
+      "image": "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=500&h=500&fit=crop",
+      "borderColor": "#06B6D4",
+      "gradient": "linear-gradient(135deg, #06B6D4, #000)",
+      "url": "https://github.com"
+    }
+  ]
+}
