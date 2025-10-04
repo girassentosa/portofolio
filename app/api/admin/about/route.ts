@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAboutData, updateAboutData } from '@/lib/dbHelper';
+import { getAboutData, updateAboutData } from '@/lib/supabaseHelper';
 
 export async function GET(request: NextRequest) {
   const session = request.cookies.get('admin_session');
@@ -8,9 +8,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const data = getAboutData();
+    const data = await getAboutData();
     return NextResponse.json(data);
   } catch (error) {
+    console.error('Error fetching about data:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
@@ -23,9 +24,10 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const updatedData = updateAboutData(body);
+    const updatedData = await updateAboutData(body);
     return NextResponse.json(updatedData);
   } catch (error) {
+    console.error('Error updating about data:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

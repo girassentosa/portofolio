@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 const md5 = require('js-md5');
-import { getUserByUsername } from '@/lib/dbHelper';
+import { getUserByUsername } from '@/lib/supabaseHelper';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = getUserByUsername(username);
+    const user = await getUserByUsername(username);
     
     if (!user) {
       return NextResponse.json(

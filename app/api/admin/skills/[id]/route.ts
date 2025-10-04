@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateSkill, deleteSkill } from '@/lib/dbHelper';
+import { updateSkill, deleteSkill } from '@/lib/supabaseHelper';
 
 export async function PUT(
   request: NextRequest,
@@ -13,7 +13,7 @@ export async function PUT(
   try {
     const id = parseInt(params.id);
     const body = await request.json();
-    const updatedSkill = updateSkill(id, body);
+    const updatedSkill = await updateSkill(id, body);
     
     if (!updatedSkill) {
       return NextResponse.json({ error: 'Skill not found' }, { status: 404 });
@@ -21,6 +21,7 @@ export async function PUT(
     
     return NextResponse.json(updatedSkill);
   } catch (error) {
+    console.error('Error updating skill:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
@@ -36,7 +37,7 @@ export async function DELETE(
 
   try {
     const id = parseInt(params.id);
-    const success = deleteSkill(id);
+    const success = await deleteSkill(id);
     
     if (!success) {
       return NextResponse.json({ error: 'Skill not found' }, { status: 404 });
@@ -44,6 +45,7 @@ export async function DELETE(
     
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Error deleting skill:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

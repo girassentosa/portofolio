@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateProject, deleteProject } from '@/lib/dbHelper';
+import { updateProject, deleteProject } from '@/lib/supabaseHelper';
 
 export async function PUT(
   request: NextRequest,
@@ -13,7 +13,7 @@ export async function PUT(
   try {
     const id = parseInt(params.id);
     const body = await request.json();
-    const updatedProject = updateProject(id, body);
+    const updatedProject = await updateProject(id, body);
     
     if (!updatedProject) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
@@ -21,6 +21,7 @@ export async function PUT(
     
     return NextResponse.json(updatedProject);
   } catch (error) {
+    console.error('Error updating project:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
@@ -36,7 +37,7 @@ export async function DELETE(
 
   try {
     const id = parseInt(params.id);
-    const success = deleteProject(id);
+    const success = await deleteProject(id);
     
     if (!success) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
@@ -44,6 +45,7 @@ export async function DELETE(
     
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Error deleting project:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

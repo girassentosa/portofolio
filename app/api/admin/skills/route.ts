@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSkills, createSkill } from '@/lib/dbHelper';
+import { getSkills, createSkill } from '@/lib/supabaseHelper';
 
 export async function GET(request: NextRequest) {
   const session = request.cookies.get('admin_session');
@@ -8,9 +8,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const skills = getSkills();
+    const skills = await getSkills();
     return NextResponse.json(skills);
   } catch (error) {
+    console.error('Error fetching skills:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
@@ -23,9 +24,10 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const newSkill = createSkill(body);
+    const newSkill = await createSkill(body);
     return NextResponse.json(newSkill);
   } catch (error) {
+    console.error('Error creating skill:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
