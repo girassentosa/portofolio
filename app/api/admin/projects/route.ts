@@ -9,7 +9,20 @@ export async function GET(request: NextRequest) {
 
   try {
     const projects = await getProjects();
-    return NextResponse.json(projects);
+    
+    // Transform database format to frontend format (snake_case to camelCase)
+    const transformedProjects = projects.map(project => ({
+      id: project.id,
+      title: project.title,
+      subtitle: project.subtitle,
+      handle: project.handle,
+      image: project.image,
+      borderColor: project.border_color,
+      gradient: project.gradient,
+      url: project.url
+    }));
+    
+    return NextResponse.json(transformedProjects);
   } catch (error) {
     console.error('Error fetching projects:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -24,7 +37,19 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const newProject = await createProject(body);
+    
+    // Transform frontend format to database format (camelCase to snake_case)
+    const dbData = {
+      title: body.title,
+      subtitle: body.subtitle,
+      handle: body.handle,
+      image: body.image,
+      border_color: body.borderColor,
+      gradient: body.gradient,
+      url: body.url
+    };
+    
+    const newProject = await createProject(dbData);
     return NextResponse.json(newProject);
   } catch (error) {
     console.error('Error creating project:', error);

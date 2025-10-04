@@ -18,11 +18,37 @@ export async function GET() {
       }))
     } : null;
 
+    // Transform about data to frontend format (snake_case to camelCase)
+    const aboutTransformed = about ? {
+      whoAmI: about.who_am_i || '',
+      myApproach: about.my_approach || '',
+      personalInfo: {
+        name: about.name || '',
+        location: about.location || '',
+        email: about.email || '',
+        phone: about.phone || '',
+        education: about.education || ''
+      },
+      image: about.image || ''
+    } : null;
+
+    // Transform projects to frontend format (snake_case to camelCase)
+    const projectsTransformed = projects.map(project => ({
+      id: project.id,
+      title: project.title,
+      subtitle: project.subtitle,
+      tech: project.handle,
+      image: project.image,
+      borderColor: project.border_color,
+      gradient: project.gradient,
+      url: project.url
+    }));
+
     return NextResponse.json({
       home: homeWithStats,
-      about,
+      about: aboutTransformed,
       skills,
-      projects,
+      projects: projectsTransformed,
     });
   } catch (error) {
     console.error('Error fetching portfolio data:', error);

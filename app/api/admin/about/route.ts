@@ -9,7 +9,22 @@ export async function GET(request: NextRequest) {
 
   try {
     const data = await getAboutData();
-    return NextResponse.json(data);
+    
+    // Transform database format to frontend format
+    const responseData = {
+      whoAmI: data?.who_am_i || '',
+      myApproach: data?.my_approach || '',
+      personalInfo: {
+        name: data?.name || '',
+        location: data?.location || '',
+        email: data?.email || '',
+        phone: data?.phone || '',
+        education: data?.education || '',
+      },
+      image: data?.image || ''
+    };
+    
+    return NextResponse.json(responseData);
   } catch (error) {
     console.error('Error fetching about data:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
@@ -24,7 +39,20 @@ export async function PUT(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const updatedData = await updateAboutData(body);
+    
+    // Transform frontend format to database format
+    const dbData = {
+      who_am_i: body.whoAmI,
+      my_approach: body.myApproach,
+      name: body.personalInfo?.name,
+      location: body.personalInfo?.location,
+      email: body.personalInfo?.email,
+      phone: body.personalInfo?.phone,
+      education: body.personalInfo?.education,
+      image: body.image
+    };
+    
+    const updatedData = await updateAboutData(dbData);
     return NextResponse.json(updatedData);
   } catch (error) {
     console.error('Error updating about data:', error);

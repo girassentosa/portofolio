@@ -41,7 +41,19 @@ export default function AboutAdmin() {
       const res = await fetch("/api/admin/about");
       const data = await res.json();
       setData(data);
-      setFormData(data);
+      // Ensure personalInfo exists
+      setFormData({
+        whoAmI: data?.whoAmI || "",
+        myApproach: data?.myApproach || "",
+        personalInfo: {
+          name: data?.personalInfo?.name || data?.name || "",
+          location: data?.personalInfo?.location || data?.location || "",
+          email: data?.personalInfo?.email || data?.email || "",
+          phone: data?.personalInfo?.phone || data?.phone || "",
+          education: data?.personalInfo?.education || data?.education || "",
+        },
+        image: data?.image || "",
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -128,7 +140,7 @@ export default function AboutAdmin() {
               </label>
               <input
                 type="text"
-                value={formData.personalInfo.name}
+                value={formData.personalInfo?.name || ""}
                 onChange={(e) => updatePersonalInfo("name", e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -140,7 +152,7 @@ export default function AboutAdmin() {
               </label>
               <input
                 type="text"
-                value={formData.personalInfo.location}
+                value={formData.personalInfo?.location || ""}
                 onChange={(e) => updatePersonalInfo("location", e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -152,7 +164,7 @@ export default function AboutAdmin() {
               </label>
               <input
                 type="email"
-                value={formData.personalInfo.email}
+                value={formData.personalInfo?.email || ""}
                 onChange={(e) => updatePersonalInfo("email", e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -164,7 +176,7 @@ export default function AboutAdmin() {
               </label>
               <input
                 type="tel"
-                value={formData.personalInfo.phone}
+                value={formData.personalInfo?.phone || ""}
                 onChange={(e) => updatePersonalInfo("phone", e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -176,7 +188,7 @@ export default function AboutAdmin() {
               </label>
               <input
                 type="text"
-                value={formData.personalInfo.education}
+                value={formData.personalInfo?.education || ""}
                 onChange={(e) => updatePersonalInfo("education", e.target.value)}
                 className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="e.g., Informatika - IPK 3.68/4.00"

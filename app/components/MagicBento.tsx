@@ -262,7 +262,7 @@ export default function MagicBento({ cardData = defaultCardData, textAutoHide = 
                     </h3>
                     {card.title === 'My Approach' ? (
                       <ul className="mt-1 space-y-2">
-                        {card.description.split('\n').map((line: string, i: number) => (
+                        {card.description?.split('\n').map((line: string, i: number) => (
                           <li key={i} className="flex items-start gap-2 text-sm sm:text-base leading-6 sm:leading-7 opacity-90">
                             <span className="mt-1.5 sm:mt-2 inline-block h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-white/90 flex-shrink-0"></span>
                             <span className="flex-1">{line.replace(/^•\s?/, '')}</span>
@@ -270,7 +270,7 @@ export default function MagicBento({ cardData = defaultCardData, textAutoHide = 
                         ))}
                       </ul>
                     ) : card.title === 'Who am I' ? (
-                      <p className={`card__description text-sm sm:text-base leading-6 sm:leading-7 opacity-90 text-justify hyphens-auto`}>{card.description}</p>
+                      <p className={`card__description text-sm sm:text-base leading-6 sm:leading-7 opacity-90 text-justify hyphens-auto`}>{card.description || ''}</p>
                     ) : card.title === 'Personal Info' ? (
                       <div className="mt-1 grid grid-cols-1 md:grid-cols-2 gap-x-4 lg:gap-x-6 gap-y-2.5 sm:gap-y-3 text-sm sm:text-base leading-6 sm:leading-7 opacity-90">
                         <div className="flex items-center gap-2">

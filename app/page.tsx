@@ -71,10 +71,10 @@ export default function Home() {
               {/* Text Content */}
               <HomeReveal delay={0.6} direction="left" className="order-2 lg:order-1">
                 <div className="backdrop-blur-[1px] text-left w-full" suppressHydrationWarning>
-                  <p className="text-xs sm:text-sm uppercase tracking-widest text-white/80">{portfolioData.home.subtitle}</p>
+                  <p className="text-xs sm:text-sm uppercase tracking-widest text-white/80">{portfolioData.home?.subtitle || 'Loading...'}</p>
                 <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                   <BlurText
-                      text={portfolioData.home.title}
+                      text={portfolioData.home?.title || 'Portfolio'}
                       delay={0}
                     animateBy="words"
                     direction="top"
@@ -82,7 +82,7 @@ export default function Home() {
                   />
                 </h1>
                 <AnimatedParagraph
-                    text={portfolioData.home.description}
+                    text={portfolioData.home?.description || 'Welcome to my portfolio...'}
                     className="mt-4 text-white/85 text-sm sm:text-base lg:text-lg leading-relaxed text-justify"
                   shinySpeed={3}
                 />
@@ -136,7 +136,7 @@ export default function Home() {
 
                 {/* Stats chips */}
                 <div className="mt-5 sm:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3" suppressHydrationWarning>
-                  {portfolioData.home.stats.map((stat: any, index: number) => (
+                  {portfolioData.home?.stats?.map((stat: any, index: number) => (
                     <div key={index} className="relative inline-flex w-full h-14 sm:h-16 px-3 sm:px-5 items-center justify-center rounded-lg sm:rounded-xl bg-white/10 text-white/90 border border-white/15 overflow-hidden backdrop-blur-sm shadow-[0_6px_22px_rgba(0,0,0,0.25)]" suppressHydrationWarning>
                     <div className="relative z-10 flex flex-col leading-tight items-center text-center" suppressHydrationWarning>
                         <span className="text-base sm:text-lg font-semibold">{stat.value}</span>

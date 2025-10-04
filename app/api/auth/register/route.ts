@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 const md5 = require('js-md5');
-import { getUserByUsername, createUser } from '@/lib/dbHelper';
+import { getUserByUsername, createUser } from '@/lib/supabaseHelper';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if username already exists
-    const existingUser = getUserByUsername(username);
+    const existingUser = await getUserByUsername(username);
     if (existingUser) {
       return NextResponse.json(
         { error: 'Username sudah digunakan' },
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const hashedPassword = md5(password);
 
     // Create user
-    const newUser = createUser({
+    const newUser = await createUser({
       username,
       email,
       password: hashedPassword

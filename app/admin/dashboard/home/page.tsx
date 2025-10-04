@@ -31,7 +31,11 @@ export default function HomeAdmin() {
       const res = await fetch("/api/admin/home");
       const data = await res.json();
       setData(data);
-      setFormData(data);
+      // Ensure stats array exists
+      setFormData({
+        ...data,
+        stats: data?.stats || []
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -152,7 +156,7 @@ export default function HomeAdmin() {
           <h2 className="text-lg sm:text-xl font-bold text-white mb-4">Statistik</h2>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-            {formData.stats.map((stat, index) => (
+            {formData.stats?.map((stat, index) => (
               <div key={index} className="bg-gray-700 rounded-lg p-4">
                 <p className="text-gray-400 text-xs mb-2">Statistik {index + 1}</p>
                 <div className="space-y-2">

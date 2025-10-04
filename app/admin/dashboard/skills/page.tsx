@@ -30,9 +30,10 @@ export default function SkillsAdmin() {
     try {
       const res = await fetch("/api/admin/skills");
       const data = await res.json();
-      setSkills(data);
+      setSkills(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error("Error fetching skills:", error);
+      setSkills([]);
     } finally {
       setLoading(false);
     }

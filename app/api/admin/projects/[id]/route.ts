@@ -13,7 +13,19 @@ export async function PUT(
   try {
     const id = parseInt(params.id);
     const body = await request.json();
-    const updatedProject = await updateProject(id, body);
+    
+    // Transform frontend format to database format (camelCase to snake_case)
+    const dbData = {
+      title: body.title,
+      subtitle: body.subtitle,
+      handle: body.handle,
+      image: body.image,
+      border_color: body.borderColor,
+      gradient: body.gradient,
+      url: body.url
+    };
+    
+    const updatedProject = await updateProject(id, dbData);
     
     if (!updatedProject) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
