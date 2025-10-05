@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getHomeData, getHomeStats, getAboutData, getSkills, getProjects } from '@/lib/supabaseHelper';
 
+// Disable caching - always fetch fresh data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const home = await getHomeData();
@@ -44,12 +48,19 @@ export async function GET() {
       url: project.url
     }));
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       home: homeWithStats,
       about: aboutTransformed,
       skills,
       projects: projectsTransformed,
     });
+    
+    // Add cache control headers to prevent caching
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    
+    return response;
   } catch (error) {
     console.error('Error fetching portfolio data:', error);
     return NextResponse.json(

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getHomeData, updateHomeData, getHomeStats } from '@/lib/supabaseHelper';
 
+// Disable caching for admin routes
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   const session = request.cookies.get('admin_session');
   if (!session) {
