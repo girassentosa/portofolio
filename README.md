@@ -9,7 +9,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-[🌐 **Live Demo**](https://your-portfolio-url.vercel.app) • [📖 Documentation](#-documentation) • [🚀 Quick Start](#-quick-start)
+[🌐 **Live Demo**](https://your-portfolio-url.vercel.app) • [📖 Documentation](#) • [🚀 Quick Start](#)
 
 ---
 
@@ -24,23 +24,26 @@ Portfolio website yang dibangun dengan teknologi modern, dilengkapi dengan **3D 
 ## 📸 Preview
 
 <div align="center">
-  <img src="public/images/preview-home.png" alt="Homepage Preview" width="800px" />
-  <p><i>Stunning 3D background animations powered by Three.js</i></p>
-</div>
 
-<details>
-<summary>📱 <b>More Screenshots</b></summary>
+### 🏠 **Homepage**
+<img src="public/images/preview-home.png" alt="Homepage Preview" width="800px" />
+<p><i>Stunning 3D background animations powered by Three.js</i></p>
+
 <br>
 
+### 📱 **Main Sections**
 | About Section | Skills Section | Projects Section |
 |:---:|:---:|:---:|
 | ![About](public/images/preview-about.png) | ![Skills](public/images/preview-skills.png) | ![Projects](public/images/preview-projects.png) |
 
-| Admin Dashboard | Admin Projects | Mobile View |
-|:---:|:---:|:---:|
-| ![Dashboard](public/images/preview-admin.png) | ![Admin Projects](public/images/preview-admin-projects.png) | ![Mobile](public/images/preview-mobile.png) |
+<br>
 
-</details>
+### 🔐 **Admin Dashboard & Mobile View**
+| Admin Dashboard | Mobile View |
+|:---:|:---:|
+| ![Dashboard](public/images/preview-admin.png) | ![Mobile](public/images/preview-mobile.png) |
+
+</div>
 
 ---
 
@@ -91,241 +94,6 @@ Portfolio website yang dibangun dengan teknologi modern, dilengkapi dengan **3D 
 | **Database** | ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat&logo=supabase&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat&logo=postgresql&logoColor=white) |
 | **Auth** | ![Cookies](https://img.shields.io/badge/Session_Cookies-FF6B6B?style=flat) js-md5 |
 | **Deployment** | ![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat&logo=vercel&logoColor=white) |
-
-</div>
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18+ installed
-- Supabase account (free tier)
-- Git
-
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/girassentosa/portofolio.git
-cd portofolio
-```
-
-### 2️⃣ Install Dependencies
-```bash
-npm install
-```
-
-### 3️⃣ Setup Environment Variables
-Create `.env.local` file:
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### 4️⃣ Setup Database
-Import `database/supabase_migration_secure.sql` to your Supabase project
-
-### 5️⃣ Run Development Server
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) 🎉
-
----
-
-## 📦 Deployment
-
-### ⚡ Deploy to Vercel (Recommended)
-
-<div align="center">
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/girassentosa/portofolio)
-
-**🎯 5-minute deployment!**
-
-</div>
-
-1. Push your code to GitHub
-2. Import project to [Vercel](https://vercel.com)
-3. Add environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
-4. Deploy! ✨
-
-**📖 Detailed Guides:**
-- ⚡ **Quick Start (15 min):** [`SUPABASE_QUICK_START.md`](./SUPABASE_QUICK_START.md)
-- 📘 **Full Guide:** [`DEPLOY_VERCEL_SUPABASE.md`](./DEPLOY_VERCEL_SUPABASE.md)
-
----
-
-## 📂 Project Structure
-
-```
-portofolio/
-├── 📁 app/
-│   ├── 📁 admin/              # Admin dashboard & pages
-│   │   ├── dashboard/         # Dashboard layout & sections
-│   │   ├── login/             # Login page
-│   │   └── register/          # Register page
-│   ├── 📁 api/                # API Routes
-│   │   ├── admin/             # Admin CRUD APIs
-│   │   ├── auth/              # Authentication APIs
-│   │   └── portfolio/         # Public portfolio API
-│   ├── 📁 components/         # React Components
-│   │   ├── Beams.tsx          # 3D background beams
-│   │   ├── Header.tsx         # Navigation header
-│   │   ├── MagicBento.tsx     # Bento grid layout
-│   │   └── ...                # Other components
-│   ├── page.tsx               # Homepage
-│   ├── layout.tsx             # Root layout
-│   └── globals.css            # Global styles
-├── 📁 lib/
-│   ├── supabase.ts            # Supabase client
-│   └── supabaseHelper.ts      # Database helpers
-├── 📁 database/
-│   └── supabase_migration_secure.sql  # Database schema
-├── 📁 public/
-│   └── images/                # Static images
-├── package.json
-├── next.config.js
-├── tailwind.config.ts
-└── tsconfig.json
-```
-
----
-
-## 🎨 Sections Overview
-
-| Section | Description | Admin Editable |
-|---------|-------------|----------------|
-| 🏠 **Home** | Hero section with animated background | ✅ Yes |
-| 👤 **About** | Personal info & approach | ✅ Yes |
-| 💡 **Skills** | Technical skills showcase | ✅ Yes |
-| 🚀 **Projects** | Portfolio projects gallery | ✅ Yes |
-| 📧 **Contact** | Contact information | ❌ Static |
-
----
-
-## 🔐 Admin Access
-
-Access admin panel at `/admin/login`
-
-**Default credentials:**
-```
-Username: admin
-Password: admin123
-```
-
-⚠️ **IMPORTANT:** Change the default password after first login!
-
-### Admin Features:
-- 📝 Edit homepage content (title, subtitle, stats)
-- 👤 Update about section (bio, personal info)
-- 💼 Manage skills (add, edit, delete)
-- 🚀 Manage projects (add, edit, delete with images)
-- 📊 View statistics dashboard
-
----
-
-## ⚡ Performance
-
-<div align="center">
-
-| Metric | Score | Status |
-|--------|-------|--------|
-| **Performance** | 95+ | ✅ Excellent |
-| **Accessibility** | 100 | ✅ Perfect |
-| **Best Practices** | 100 | ✅ Perfect |
-| **SEO** | 100 | ✅ Perfect |
-
-*Measured with Google Lighthouse*
-
-</div>
-
-**Optimizations:**
-- ✅ Image optimization with Next.js Image
-- ✅ Lazy loading for non-critical components
-- ✅ Dynamic imports for heavy libraries
-- ✅ Optimized Three.js rendering
-- ✅ Throttled animation events
-- ✅ Efficient caching strategies
-
----
-
-## 📖 Documentation
-
-### 📚 Guides:
-- 🚀 [Supabase Quick Start](./SUPABASE_QUICK_START.md) - **Start here!**
-- 📘 [Vercel + Supabase Deployment](./DEPLOY_VERCEL_SUPABASE.md)
-- 🌐 [InfinityFree Deployment](./DEPLOYMENT_INFINITYFREE.md)
-- 🔧 [MySQL Deployment](./DEPLOY_VERCEL_MYSQL.md)
-- 📝 [Migration Summary](./MIGRATION_SUMMARY.md)
-
-### 🗄️ Database:
-- [MySQL Setup Guide](./MYSQL_SETUP_GUIDE.md)
-- [MySQL Quick Start](./MYSQL_QUICK_START.md)
-
----
-
-## 🐛 Troubleshooting
-
-<details>
-<summary><b>Build Error</b></summary>
-
-```bash
-# Clean build cache
-rm -rf .next node_modules
-npm install
-npm run build
-```
-</details>
-
-<details>
-<summary><b>Database Connection Error</b></summary>
-
-- ✅ Check environment variables in `.env.local`
-- ✅ Verify Supabase project URL and API key
-- ✅ Ensure database schema is imported
-- ✅ Check RLS policies in Supabase
-</details>
-
-<details>
-<summary><b>Admin Panel Not Loading</b></summary>
-
-- ✅ Clear browser cache and cookies
-- ✅ Check API routes in `/api/auth/`
-- ✅ Verify authentication middleware
-- ✅ Check browser console for errors
-</details>
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-© 2025 **Taji Jadda Giras Sentosa**. All rights reserved.
-
-This project is for personal portfolio use. Feel free to fork and customize for your own portfolio!
-
----
-
-## 💬 Contact
-
-<div align="center">
-
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@example.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/girassentosa)
-[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white)](https://your-portfolio-url.vercel.app)
 
 </div>
 
