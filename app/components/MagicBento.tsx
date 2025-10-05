@@ -5,8 +5,8 @@ import { gsap } from 'gsap';
 import ElectricBorder from './ElectricBorder';
 import Image from 'next/image';
 
-const DEFAULT_PARTICLE_COUNT = 12;
-const DEFAULT_SPOTLIGHT_RADIUS = 300;
+const DEFAULT_PARTICLE_COUNT = 6; // OPTIMIZED: Reduced from 12
+const DEFAULT_SPOTLIGHT_RADIUS = 250; // OPTIMIZED: Smaller radius
 const DEFAULT_GLOW_COLOR = '132, 0, 255';
 const MOBILE_BREAKPOINT = 768;
 
@@ -133,13 +133,20 @@ const ParticleCard = ({ children, className = '', disableAnimations = false, sty
 const GlobalSpotlight = ({ gridRef, disableAnimations = false, enabled = true, spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS, glowColor = DEFAULT_GLOW_COLOR }: any) => {
   const spotlightRef = useRef<HTMLDivElement | null>(null);
   const isInsideSection = useRef(false);
+  const lastCallTime = useRef(0); // OPTIMIZED: Throttle tracking
+  
   useEffect(() => {
     if (disableAnimations || !gridRef?.current || !enabled) return;
     const spotlight = document.createElement('div');
     spotlight.className = 'global-spotlight';
     spotlight.style.cssText = `position:fixed;width:800px;height:800px;border-radius:50%;pointer-events:none;background:radial-gradient(circle, rgba(${glowColor},0.15) 0%, rgba(${glowColor},0.08) 15%, rgba(${glowColor},0.04) 25%, rgba(${glowColor},0.02) 40%, rgba(${glowColor},0.01) 65%, transparent 70%);z-index:200;opacity:0;transform:translate(-50%, -50%);mix-blend-mode:screen;`;
     document.body.appendChild(spotlight); spotlightRef.current = spotlight;
+    
     const handleMouseMove = (e: MouseEvent) => {
+      // OPTIMIZED: Throttle to 60fps max (16.67ms)
+      const now = Date.now();
+      if (now - lastCallTime.current < 16) return;
+      lastCallTime.current = now;
       if (!spotlightRef.current || !gridRef.current) return;
       const section = (gridRef.current as HTMLElement).closest('.bento-section') as HTMLElement | null;
       const rect = section?.getBoundingClientRect();

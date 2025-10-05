@@ -56,17 +56,17 @@ const CanvasWrapper = ({ children }: { children: React.ReactNode }) => {
   
   return (
     <Canvas 
-      dpr={isMobile ? [1, 1.5] : [1, 2]} 
-      frameloop="always" 
+      dpr={isMobile ? [1, 1] : [1, 1.5]} // OPTIMIZED: Reduce pixel density
+      frameloop="demand" // OPTIMIZED: Render only when needed
       className="w-full h-full relative"
       gl={{ 
-        antialias: !isMobile,
+        antialias: false, // OPTIMIZED: Disable antialiasing for performance
         alpha: true,
-        powerPreference: isMobile ? 'low-power' : 'high-performance',
+        powerPreference: 'low-power', // OPTIMIZED: Save battery/GPU
         preserveDrawingBuffer: false,
-        failIfMajorPerformanceCaveat: false
+        failIfMajorPerformanceCaveat: true // OPTIMIZED: Fail on slow devices
       }}
-      performance={{ min: 0.5 }}
+      performance={{ min: 0.3, max: 1 }} // OPTIMIZED: Adaptive performance
       flat
     >
       {children}

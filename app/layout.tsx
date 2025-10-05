@@ -32,12 +32,16 @@ export default function RootLayout({
         {/* Performance hints */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         
-        {/* Preload critical resources for better LCP */}
+        {/* OPTIMIZED: Preload ONLY critical above-the-fold image */}
         <link rel="preload" as="image" href="/images/profile.jpg" fetchPriority="high" />
         
-        {/* DNS prefetch for external resources */}
+        {/* OPTIMIZED: DNS prefetch & preconnect for external resources */}
         <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        
+        {/* OPTIMIZED: Resource hints for Supabase */}
+        <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} crossOrigin="anonymous" />
       </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-black`}

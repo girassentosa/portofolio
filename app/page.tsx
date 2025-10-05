@@ -216,8 +216,8 @@ export default function Home() {
                   enableTilt={true}
                   enableMagnetism={true}
                   clickEffect={true}
-                  spotlightRadius={360}
-                  particleCount={16}
+                  spotlightRadius={280}
+                  particleCount={8}
                   glowColor="132, 0, 255"
                 />
               </div>
