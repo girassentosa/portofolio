@@ -156,7 +156,7 @@ export default function AdminLayout({
           </div>
 
           {/* Navigation - IMPROVED WITH ICONS & ANIMATIONS */}
-          <nav className="space-y-2 mb-20">
+          <nav className="space-y-2 mb-6">
             <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Menu</p>
             {navigation.map((item, index) => {
               const isActive = pathname === item.href;
@@ -188,8 +188,8 @@ export default function AdminLayout({
             })}
           </nav>
 
-          {/* Logout Button - IMPROVED */}
-          <div className="absolute bottom-6 left-4 right-4">
+          {/* Logout Button - IMPROVED - Closer to navigation */}
+          <div className="pt-4 px-0">
             <button
               onClick={handleLogout}
               className="w-full flex items-center px-4 py-3 text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all duration-200 font-medium border border-red-500/20 hover:border-red-500/40 hover:shadow-lg hover:shadow-red-500/20"

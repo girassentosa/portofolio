@@ -55,7 +55,7 @@ export default function Home() {
   };
   return (
     <>
-      {/* Beams Background - Fixed Full Screen */}
+      {/* Beams Background - Fixed Full Screen - NO ANIMATION for better performance */}
       <div className="fixed inset-0 w-full h-full z-0 pointer-events-none" suppressHydrationWarning>
         <ResponsiveBeams />
       </div>

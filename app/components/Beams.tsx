@@ -57,7 +57,7 @@ const CanvasWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <Canvas 
       dpr={isMobile ? [1, 1] : [1, 1.5]} // OPTIMIZED: Reduce pixel density
-      frameloop="demand" // OPTIMIZED: Render only when needed
+      frameloop="demand" // OPTIMIZED: Render only once since no animation
       className="w-full h-full relative"
       gl={{ 
         antialias: false, // OPTIMIZED: Disable antialiasing for performance
@@ -308,7 +308,11 @@ const MergedPlanes = forwardRef(({ material, width, count, height }: any, ref) =
   );
   useFrame((_, delta) => {
     if (mesh.current) {
-      (mesh.current as any).material.uniforms.time.value += 0.1 * delta;
+      // DISABLED ANIMATION: Comment this line to stop beams movement
+      // (mesh.current as any).material.uniforms.time.value += 0.1 * delta;
+      
+      // Keep time at 0 for static beams (no animation)
+      (mesh.current as any).material.uniforms.time.value = 0;
     }
   });
   return <mesh ref={mesh} geometry={geometry} material={material} />;
