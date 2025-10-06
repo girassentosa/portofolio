@@ -13,6 +13,78 @@ body {
 /* Reduce CLS - Reserve space for below-fold content */
 section {
   content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* GPU acceleration untuk smooth animations */
+.transform,
+[class*="translate"],
+[class*="rotate"],
+[class*="scale"] {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Performance optimizations untuk animasi */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Reduce animation complexity pada mobile */
+@media (max-width: 768px) {
+  @keyframes glow-bg {
+    0%, 100% {
+      --bgrotate: 0deg;
+    }
+  }
+  
+  @keyframes holo-bg {
+    0%, 100% {
+      background-position:
+        0 var(--background-y),
+        0 0,
+        center;
+    }
+  }
+  
+  /* Disable heavy animations on mobile */
+  .pc-shine {
+    animation: none !important;
+  }
+  
+  .pc-card {
+    animation: none !important;
+  }
+}
+
+/* Optimize backdrop-blur untuk mobile */
+@media (max-width: 768px) {
+  .backdrop-blur-\[1px\],
+  .backdrop-blur-sm,
+  .backdrop-blur-md {
+    backdrop-filter: none !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+  }
+  
+  /* Reduce blur complexity pada mobile */
+  .pc-avatar-content::before {
+    backdrop-filter: blur(15px) !important;
+  }
+  
+  .pc-user-info {
+    backdrop-filter: blur(15px) !important;
+  }
+  
+  .pc-contact-btn {
+    backdrop-filter: blur(5px) !important;
+  }
 }
 
 
@@ -63,8 +135,33 @@ html {
   overflow-x: hidden;
 }
 
+/* Optimized smooth scroll untuk mobile */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto; /* Faster scroll on mobile */
+  }
+}
+
 body {
   overflow-x: hidden; /* cegah scroll horizontal */
+}
+
+/* Performance: will-change untuk elemen yang sering berubah */
+.pc-card,
+.pc-card-wrapper,
+.btn-pop,
+.btn-pop-outline {
+  will-change: transform;
+}
+
+.pc-card:hover,
+.pc-card.active {
+  will-change: transform;
+}
+
+/* Remove will-change setelah tidak digunakan */
+.pc-card:not(:hover):not(.active) {
+  will-change: auto;
 }
 
 /* Header pop full-width */

@@ -24,15 +24,15 @@ const ResponsiveBeams = () => {
       const width = window.innerWidth;
       
       if (width < 640) {
-        // Mobile - OPTIMIZED: Reduced beams for better performance
+        // Mobile - ULTRA OPTIMIZED: Minimal beams untuk performance maksimal
         setBeamConfig({
           beamWidth: 2,
-          beamHeight: 12,
-          beamNumber: 4, // Reduced from 6
+          beamHeight: 10,
+          beamNumber: 3, // Reduced to 3 untuk mobile performance
           lightColor: '#ffffff',
-          speed: 1.2, // Slower = less GPU usage
-          noiseIntensity: 1.3,
-          scale: 0.28,
+          speed: 0.8, // Much slower untuk save GPU
+          noiseIntensity: 1.0, // Reduced noise
+          scale: 0.3,
           rotation: -25
         });
       } else if (width < 1024) {
@@ -40,11 +40,11 @@ const ResponsiveBeams = () => {
         setBeamConfig({
           beamWidth: 2.5,
           beamHeight: 14,
-          beamNumber: 6, // Reduced from 8
+          beamNumber: 5, // Reduced
           lightColor: '#ffffff',
-          speed: 1.5,
-          noiseIntensity: 1.4,
-          scale: 0.24,
+          speed: 1.2,
+          noiseIntensity: 1.3,
+          scale: 0.25,
           rotation: -25
         });
       } else {
@@ -52,10 +52,10 @@ const ResponsiveBeams = () => {
         setBeamConfig({
           beamWidth: 3,
           beamHeight: 16,
-          beamNumber: 8, // Reduced from 12 for better performance
+          beamNumber: 7, // Reduced dari 8
           lightColor: '#ffffff',
-          speed: 1.6, // Reduced speed = less GPU work
-          noiseIntensity: 1.5,
+          speed: 1.4, // Reduced speed
+          noiseIntensity: 1.4,
           scale: 0.22,
           rotation: -25
         });

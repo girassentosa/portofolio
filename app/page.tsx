@@ -2,16 +2,17 @@
 
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import ProfileCard from "./components/ProfileCard";
 import AnimatedParagraph from "./components/AnimatedParagraph";
 import Footer from "./components/Footer";
 import CVDownloadModal from "./components/CVDownloadModal";
-const ResponsiveBeams = dynamic(() => import("./components/ResponsiveBeams"), { ssr: false });
+const ResponsiveBeams = dynamic(() => import("./components/ResponsiveBeams"), { ssr: false, loading: () => null });
 const Noise = dynamic(() => import("./components/Noise"), { ssr: false });
 const BlurText = dynamic(() => import("./components/BlurText"), { ssr: false });
-const MagicBento = dynamic(() => import("./components/MagicBento"), { ssr: false });
+const MagicBento = dynamic(() => import("./components/MagicBento"), { ssr: false, loading: () => <div className="w-full h-[400px]" /> });
 const SkillCard = dynamic(() => import("./components/SkillCard"), { ssr: false });
-const ChromaGrid = dynamic(() => import("./components/ChromaGrid"), { ssr: false });
+const ChromaGrid = dynamic(() => import("./components/ChromaGrid"), { ssr: false, loading: () => <div className="w-full h-[500px]" /> });
 const ContactCard = dynamic(() => import("./components/ContactCard"), { ssr: false });
 const ContactForm = dynamic(() => import("./components/ContactForm"), { ssr: false });
 const ScrollReveal = dynamic(() => import("./components/ScrollReveal"), { ssr: false });
@@ -21,6 +22,8 @@ const ClientWrapper = dynamic(() => import("./components/ClientWrapper"), { ssr:
 
 export default function Home() {
   const [isCVModalOpen, setIsCVModalOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   
   // State untuk data dari database dengan default values
   const [portfolioData, setPortfolioData] = useState<any>({
@@ -38,6 +41,29 @@ export default function Home() {
     skills: [],
     projects: []
   });
+
+  // Detect mobile dan reduced motion preferences
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    const checkReducedMotion = () => {
+      setPrefersReducedMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    };
+    
+    checkMobile();
+    checkReducedMotion();
+    
+    window.addEventListener('resize', checkMobile);
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    motionQuery.addEventListener('change', checkReducedMotion);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      motionQuery.removeEventListener('change', checkReducedMotion);
+    };
+  }, []);
 
   // Fetch data dari API saat component mount
   useEffect(() => {
@@ -90,17 +116,17 @@ export default function Home() {
                 <div className="mt-5 flex flex-wrap items-center gap-3 sm:gap-4 text-white/80" suppressHydrationWarning>
                   <span className="text-xs sm:text-sm tracking-wide">Ikuti saya:</span>
                   <div className="flex items-center gap-2 sm:gap-3" suppressHydrationWarning>
-                    <a href="#" aria-label="GitHub" className="group relative inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors overflow-hidden">
+                    <a href="https://github.com/girassentosa" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="group relative inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors overflow-hidden">
                       <svg className="h-4 w-4 sm:h-5 sm:w-5 text-white/90 group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path fillRule="evenodd" d="M12 .5a12 12 0 0 0-3.793 23.392c.6.111.82-.26.82-.579 0-.287-.01-1.049-.016-2.059-3.338.726-4.042-1.61-4.042-1.61-.546-1.388-1.333-1.758-1.333-1.758-1.09-.745.083-.729.083-.729 1.205.085 1.84 1.237 1.84 1.237 1.072 1.836 2.813 1.306 3.498.998.108-.777.42-1.306.763-1.606-2.665-.304-5.466-1.333-5.466-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 6.006 0c2.29-1.552 3.297-1.23 3.297-1.23.655 1.652.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.804 5.624-5.476 5.921.431.372.815 1.103.815 2.223 0 1.606-.015 2.901-.015 3.296 0 .321.218.694.826.577A12.001 12.001 0 0 0 12 .5Z" clipRule="evenodd" />
                       </svg>
                     </a>
-                    <a href="#" aria-label="Instagram" className="group relative inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors overflow-hidden">
+                    <a href="https://instagram.com/tajijaddagiras_" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="group relative inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors overflow-hidden">
                       <svg className="h-4 w-4 sm:h-5 sm:w-5 text-white/90 group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7Zm10 2c1.654 0 3 1.346 3 3v10c0 1.654-1.346 3-3 3H7c-1.654 0-3-1.346-3-3V7c0-1.654 1.346-3 3-3h10Zm-5 3a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7Zm0 2a3 3 0 1 1-.001 6.001A3 3 0 0 1 12 9Zm5.5-2.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5Z"/>
                       </svg>
                     </a>
-                    <a href="#" aria-label="Facebook" className="group relative inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors overflow-hidden">
+                    <a href="https://www.facebook.com/share/1A2FSc1z5H/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="group relative inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors overflow-hidden">
                       <svg className="h-4 w-4 sm:h-5 sm:w-5 text-white/90 group-hover:text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M13.5 9H15V6.75A3.75 3.75 0 0 1 18.75 3h.75v3h-.75c-.414 0-.75.336-.75.75V9H19l-.5 3h-1.5v9h-3v-9h-1.5V9Z"/>
                         <path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879v-6.992H8.898V12h1.54V9.797c0-1.52.906-2.36 2.295-2.36.664 0 1.357.118 1.357.118v1.49h-.764c-.752 0-.987.467-.987.946V12h1.68l-.268 2.887h-1.412v6.992C18.343 21.128 22 16.991 22 12c0-5.523-4.477-10-10-10Z"/>
@@ -156,10 +182,15 @@ export default function Home() {
                     avatarUrl={portfolioData.home.profileImage}
                     iconUrl={portfolioData.home.profileImage}
                     name={portfolioData.home.title}
+                    enableTilt={!isMobile}
+                    enableMobileTilt={false}
                     onContactClick={() => {
                       const contactSection = document.getElementById('contact');
                       if (contactSection) {
-                        contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        contactSection.scrollIntoView({ 
+                          behavior: isMobile ? 'auto' : 'smooth', 
+                          block: 'start' 
+                        });
                       }
                     }}
                   />
@@ -211,13 +242,13 @@ export default function Home() {
                   ]}
                   textAutoHide={true}
                   enableStars={true}
-                  enableSpotlight={true}
+                  enableSpotlight={!isMobile}
                   enableBorderGlow={true}
-                  enableTilt={true}
-                  enableMagnetism={true}
+                  enableTilt={!isMobile}
+                  enableMagnetism={!isMobile}
                   clickEffect={true}
-                  spotlightRadius={280}
-                  particleCount={8}
+                  spotlightRadius={isMobile ? 180 : 280}
+                  particleCount={isMobile ? 3 : 6}
                   glowColor="132, 0, 255"
                 />
               </div>
