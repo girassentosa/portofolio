@@ -30,22 +30,20 @@ export default function RootLayout({
     <html lang="id" suppressHydrationWarning>
       <head>
         {/* Performance hints */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
         
-        {/* OPTIMIZED: Preload ONLY critical above-the-fold image */}
+        {/* Preload critical image for LCP optimization */}
         <link rel="preload" as="image" href="/images/profile.jpg" fetchPriority="high" />
         
-        {/* OPTIMIZED: DNS prefetch & preconnect for external resources */}
-        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
-        
-        {/* OPTIMIZED: Resource hints for Supabase */}
+        {/* DNS prefetch & preconnect for API */}
         <link rel="dns-prefetch" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} />
         <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL || ''} crossOrigin="anonymous" />
+        
+        {/* Preconnect to API endpoint for faster data fetching */}
+        <link rel="preconnect" href="/api/portfolio" />
       </head>
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-black`}
-        suppressHydrationWarning
       >
         <ConditionalHeader />
         {children}

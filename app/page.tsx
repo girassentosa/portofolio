@@ -7,18 +7,48 @@ import ProfileCard from "./components/ProfileCard";
 import AnimatedParagraph from "./components/AnimatedParagraph";
 import Footer from "./components/Footer";
 import CVDownloadModal from "./components/CVDownloadModal";
-const ResponsiveBeams = dynamic(() => import("./components/ResponsiveBeams"), { ssr: false, loading: () => null });
+
+// Critical components - load immediately
+const ResponsiveBeams = dynamic(() => import("./components/ResponsiveBeams"), { 
+  ssr: false, 
+  loading: () => null 
+});
 const Noise = dynamic(() => import("./components/Noise"), { ssr: false });
 const BlurText = dynamic(() => import("./components/BlurText"), { ssr: false });
-const MagicBento = dynamic(() => import("./components/MagicBento"), { ssr: false, loading: () => <div className="w-full h-[400px]" /> });
-const SkillCard = dynamic(() => import("./components/SkillCard"), { ssr: false });
-const ChromaGrid = dynamic(() => import("./components/ChromaGrid"), { ssr: false, loading: () => <div className="w-full h-[500px]" /> });
-const ContactCard = dynamic(() => import("./components/ContactCard"), { ssr: false });
-const ContactForm = dynamic(() => import("./components/ContactForm"), { ssr: false });
-const ScrollReveal = dynamic(() => import("./components/ScrollReveal"), { ssr: false });
-const StaggeredReveal = dynamic(() => import("./components/StaggeredReveal"), { ssr: false });
 const HomeReveal = dynamic(() => import("./components/HomeReveal"), { ssr: false });
 const ClientWrapper = dynamic(() => import("./components/ClientWrapper"), { ssr: false });
+
+// Below-the-fold components - lazy load with intersection observer
+const MagicBento = dynamic(() => import("./components/MagicBento"), { 
+  ssr: false, 
+  loading: () => <div className="w-full h-[400px] bg-white/5" /> 
+});
+const SkillCard = dynamic(() => import("./components/SkillCard"), { ssr: false });
+const ChromaGrid = dynamic(() => import("./components/ChromaGrid"), { 
+  ssr: false, 
+  loading: () => <div className="w-full h-[500px] bg-white/5" /> 
+});
+const ContactCard = dynamic(() => import("./components/ContactCard"), { ssr: false });
+const ContactForm = dynamic(() => import("./components/ContactForm"), { ssr: false });
+
+// Scroll animations - only load on desktop for performance
+const ScrollReveal = dynamic(() => import("./components/ScrollReveal"), { ssr: false });
+const StaggeredReveal = dynamic(() => import("./components/StaggeredReveal"), { ssr: false });
+
+// Simple wrapper untuk disable scroll animations di mobile
+const MobileOptimizedReveal = ({ children, isMobile }: { children: React.ReactNode, isMobile: boolean }) => {
+  if (isMobile) {
+    return <>{children}</>;
+  }
+  return <ScrollReveal direction="down" delay={0}>{children}</ScrollReveal>;
+};
+
+const MobileOptimizedStagger = ({ children, isMobile }: { children: React.ReactNode, isMobile: boolean }) => {
+  if (isMobile) {
+    return <>{children}</>;
+  }
+  return <StaggeredReveal direction="left" staggerDelay={0.08} initialDelay={0.2}>{children}</StaggeredReveal>;
+};
 
 export default function Home() {
   const [isCVModalOpen, setIsCVModalOpen] = useState(false);
@@ -72,7 +102,10 @@ export default function Home() {
 
   const fetchPortfolioData = async () => {
     try {
-      const res = await fetch("/api/portfolio");
+      const res = await fetch("/api/portfolio", {
+        // Add cache for better performance
+        next: { revalidate: 60 }
+      });
       const data = await res.json();
       setPortfolioData(data);
     } catch (error) {
@@ -182,8 +215,9 @@ export default function Home() {
                     avatarUrl={portfolioData.home.profileImage}
                     iconUrl={portfolioData.home.profileImage}
                     name={portfolioData.home.title}
-                    enableTilt={!isMobile}
-                    enableMobileTilt={false}
+                    enableTilt={true}
+                    enableMobileTilt={isMobile}
+                    mobileTiltSensitivity={isMobile ? 3 : 5}
                     onContactClick={() => {
                       const contactSection = document.getElementById('contact');
                       if (contactSection) {
@@ -203,7 +237,7 @@ export default function Home() {
           <div id="about" className="py-12 sm:py-16 lg:py-20 mt-12 sm:mt-16 lg:mt-20" style={{ scrollMarginTop: '4rem' }} suppressHydrationWarning>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full" suppressHydrationWarning>
               {/* Section Title */}
-              <ScrollReveal direction="down" delay={0}>
+              <MobileOptimizedReveal isMobile={isMobile}>
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12" suppressHydrationWarning>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4" suppressHydrationWarning>
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
@@ -214,10 +248,10 @@ export default function Home() {
                   Mengenal lebih dekat tentang saya, perjalanan, dan pendekatan saya dalam dunia teknologi
                 </p>
               </div>
-              </ScrollReveal>
+              </MobileOptimizedReveal>
 
               {/* About Content */}
-              <ScrollReveal direction="up" delay={0.2}>
+              <MobileOptimizedReveal isMobile={isMobile}>
               <div className="w-full" suppressHydrationWarning>
                 <MagicBento
                   cardData={[
@@ -241,18 +275,18 @@ export default function Home() {
                     }
                   ]}
                   textAutoHide={true}
-                  enableStars={true}
+                  enableStars={!isMobile}
                   enableSpotlight={!isMobile}
-                  enableBorderGlow={true}
+                  enableBorderGlow={!isMobile}
                   enableTilt={!isMobile}
-                  enableMagnetism={!isMobile}
-                  clickEffect={true}
-                  spotlightRadius={isMobile ? 180 : 280}
-                  particleCount={isMobile ? 3 : 6}
+                  enableMagnetism={false}
+                  clickEffect={!isMobile}
+                  spotlightRadius={isMobile ? 150 : 280}
+                  particleCount={isMobile ? 0 : 6}
                   glowColor="132, 0, 255"
                 />
               </div>
-              </ScrollReveal>
+              </MobileOptimizedReveal>
             </div>
           </div>
 
@@ -260,7 +294,7 @@ export default function Home() {
           <div id="skills" className="py-12 sm:py-16 lg:py-20 mt-12 sm:mt-16 lg:mt-20" style={{ scrollMarginTop: '4rem' }} suppressHydrationWarning>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full" suppressHydrationWarning>
               {/* Section Title */}
-              <ScrollReveal direction="down" delay={0}>
+              <MobileOptimizedReveal isMobile={isMobile}>
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12" suppressHydrationWarning>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4" suppressHydrationWarning>
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
@@ -271,11 +305,11 @@ export default function Home() {
                   Teknologi dan tools yang saya kuasai untuk membangun solusi digital yang inovatif dan modern
                 </p>
               </div>
-              </ScrollReveal>
+              </MobileOptimizedReveal>
 
               {/* Skills Grid */}
               <div className="w-full" suppressHydrationWarning>
-                <StaggeredReveal direction="left" staggerDelay={0.08} initialDelay={0.2}>
+                <MobileOptimizedStagger isMobile={isMobile}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4" suppressHydrationWarning>
                     {portfolioData.skills.map((skill: any, index: number) => (
                   <SkillCard 
@@ -284,11 +318,11 @@ export default function Home() {
                         category={skill.category}
                         icon={skill.icon} 
                         color={skill.color}
-                        delay={index * 20}
+                        delay={isMobile ? 0 : index * 20}
                       />
                     ))}
                 </div>
-                </StaggeredReveal>
+                </MobileOptimizedStagger>
               </div>
             </div>
           </div>
@@ -297,7 +331,7 @@ export default function Home() {
           <div id="project" className="py-12 sm:py-16 lg:py-20 mt-12 sm:mt-16 lg:mt-20" style={{ scrollMarginTop: '4rem' }} suppressHydrationWarning>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full" suppressHydrationWarning>
               {/* Section Title */}
-              <ScrollReveal direction="down" delay={0}>
+              <MobileOptimizedReveal isMobile={isMobile}>
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12" suppressHydrationWarning>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4" suppressHydrationWarning>
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
@@ -308,7 +342,7 @@ export default function Home() {
                   Berikut adalah beberapa project yang telah saya kerjakan dengan berbagai teknologi modern
                 </p>
               </div>
-              </ScrollReveal>
+              </MobileOptimizedReveal>
 
               {/* Projects Grid */}
               <div className="w-full min-h-[500px] sm:min-h-[700px]" suppressHydrationWarning>
@@ -322,10 +356,10 @@ export default function Home() {
                     gradient: project.gradient,
                     url: project.url
                   }))}
-                  radius={300}
-                  damping={0.45}
-                  fadeOut={0.6}
-                  ease="power3.out"
+                  radius={isMobile ? 150 : 300}
+                  damping={isMobile ? 0.2 : 0.45}
+                  fadeOut={isMobile ? 0.3 : 0.6}
+                  ease={isMobile ? "power2.out" : "power3.out"}
                 />
               </div>
             </div>
@@ -335,7 +369,7 @@ export default function Home() {
           <div id="contact" className="py-12 sm:py-16 lg:py-20 mt-12 sm:mt-16 lg:mt-20" style={{ scrollMarginTop: '4rem' }} suppressHydrationWarning>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full" suppressHydrationWarning>
               {/* Section Title */}
-              <ScrollReveal direction="down" delay={0}>
+              <MobileOptimizedReveal isMobile={isMobile}>
                 <div className="text-center mb-8 sm:mb-10 lg:mb-12" suppressHydrationWarning>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4" suppressHydrationWarning>
                   <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
@@ -346,20 +380,20 @@ export default function Home() {
                   Mari berkolaborasi dan wujudkan ide Anda menjadi kenyataan. Hubungi saya melalui platform favorit Anda!
                 </p>
               </div>
-              </ScrollReveal>
+              </MobileOptimizedReveal>
 
               {/* Contact Content */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center" suppressHydrationWarning>
                 {/* Left Side - Contact Info */}
-                <ScrollReveal direction="left" delay={0.2}>
-                <div className="flex flex-col justify-center space-y-4 sm:space-y-5" suppressHydrationWarning>
+                <MobileOptimizedReveal isMobile={isMobile}>
+                <div className="flex flex-col justify-center space-y-3 sm:space-y-4" suppressHydrationWarning>
                   <ContactCard
                     icon="whatsapp"
                     label="WhatsApp"
                     value="081265098103"
                     href="https://wa.me/6281265098103"
                     color="#25D366"
-                    delay={0}
+                    delay={isMobile ? 0 : 0}
                   />
                   
                   <ContactCard
@@ -368,7 +402,7 @@ export default function Home() {
                     value="tajijaddagirassntosa@gmail.com"
                     href="mailto:tajijaddagirassntosa@gmail.com"
                     color="#EA4335"
-                    delay={100}
+                    delay={isMobile ? 0 : 100}
                   />
                   
                   <ContactCard
@@ -377,36 +411,26 @@ export default function Home() {
                     value="@tajijaddagiras_"
                     href="https://instagram.com/tajijaddagiras_"
                     color="#E4405F"
-                    delay={200}
-                  />
-                  
-                  <ContactCard
-                    icon="tiktok"
-                    label="TikTok"
-                    value="Segera Hadir"
-                    href="#"
-                    color="#00F2EA"
-                    delay={300}
-                    available={false}
+                    delay={isMobile ? 0 : 200}
                   />
                 </div>
-                </ScrollReveal>
+                </MobileOptimizedReveal>
 
                 {/* Right Side - Contact Form */}
-                <ScrollReveal direction="right" delay={0.2}>
+                <MobileOptimizedReveal isMobile={isMobile}>
                 <div className="relative flex items-center" suppressHydrationWarning>
-                  <div className="relative w-full p-5 sm:p-6 rounded-xl bg-gradient-to-br from-white/10 to-white/5 md:backdrop-blur-md border border-white/20 shadow-2xl" suppressHydrationWarning>
+                  <div className="relative w-full p-4 sm:p-5 md:p-6 rounded-lg sm:rounded-xl bg-gradient-to-br from-white/10 to-white/5 md:backdrop-blur-md border border-white/20 shadow-2xl" suppressHydrationWarning>
                     {/* Glow effect */}
                     <div 
-                      className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur-xl opacity-20"
+                      className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg sm:rounded-xl blur-xl opacity-20"
                       suppressHydrationWarning
                     />
                     
                     <div className="relative z-10" suppressHydrationWarning>
-                      <h3 className="text-lg sm:text-xl font-bold text-white mb-1.5">
+                      <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-1">
                         Kirim Pesan Langsung
                       </h3>
-                      <p className="text-white/60 text-xs sm:text-sm mb-4 sm:mb-5">
+                      <p className="text-white/60 text-[11px] sm:text-xs md:text-sm mb-3 sm:mb-4">
                         Isi form dan pesan akan otomatis terkirim ke platform pilihan Anda
                       </p>
                       
@@ -418,7 +442,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                </ScrollReveal>
+                </MobileOptimizedReveal>
               </div>
             </div>
           </div>

@@ -8,10 +8,26 @@ interface ClientWrapperProps {
 }
 
 const ClientWrapper = ({ children }: ClientWrapperProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [showContent, setShowContent] = useState(false);
+  // Check if user has visited before
+  const [isLoading, setIsLoading] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const hasVisited = sessionStorage.getItem('hasVisited');
+      return !hasVisited; // Skip loading if already visited this session
+    }
+    return true;
+  });
+  const [showContent, setShowContent] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('hasVisited') === 'true';
+    }
+    return false;
+  });
 
   const handleLoadComplete = () => {
+    // Mark as visited
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('hasVisited', 'true');
+    }
     // Smooth transition
     setTimeout(() => {
       setIsLoading(false);
@@ -23,7 +39,12 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
     // Ensure body stays black during transition
     document.body.style.backgroundColor = '#000000';
     document.documentElement.style.backgroundColor = '#000000';
-  }, []);
+    
+    // If already visited, skip loading screen immediately
+    if (!isLoading && showContent) {
+      document.body.style.opacity = '1';
+    }
+  }, [isLoading, showContent]);
 
   return (
     <>

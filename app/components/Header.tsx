@@ -75,21 +75,48 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Prevent body scroll when menu is open
+  // Prevent body scroll when menu is open (mobile-safe, iOS-friendly)
   useEffect(() => {
+    let scrollY = 0;
+    const html = document.documentElement;
+    const body = document.body;
     if (open) {
-      document.body.style.overflow = 'hidden';
+      scrollY = window.scrollY;
+      body.style.position = 'fixed';
+      body.style.top = `-${scrollY}px`;
+      body.style.left = '0';
+      body.style.right = '0';
+      body.style.overflow = 'hidden';
+      html.style.overflow = 'hidden';
+      body.classList.add('mobile-menu-open');
     } else {
-      document.body.style.overflow = 'unset';
+      const top = body.style.top;
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.overflow = '';
+      html.style.overflow = '';
+      body.classList.remove('mobile-menu-open');
+      if (top) {
+        const y = parseInt(top || '0') * -1;
+        window.scrollTo(0, y);
+      }
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.overflow = '';
+      html.style.overflow = '';
+      body.classList.remove('mobile-menu-open');
     };
   }, [open]);
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[100] w-full border-b border-black/10 bg-white/95 md:bg-white/90 text-black shadow-[0_4px_18px_rgba(0,0,0,0.12)] md:backdrop-blur" suppressHydrationWarning>
+      <header className="fixed top-0 left-0 right-0 z-[100] w-full border-b border-black/10 bg-white text-black shadow-sm md:shadow-[0_4px_18px_rgba(0,0,0,0.12)] md:backdrop-blur" suppressHydrationWarning>
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8" suppressHydrationWarning>
           <div className="flex h-16 items-center justify-between" suppressHydrationWarning>
             <Link href="#home" className="text-lg font-semibold hover:text-purple-600 transition-colors">
@@ -111,6 +138,8 @@ export default function Header() {
 
             <button
               aria-label="Toggle Menu"
+              aria-expanded={open}
+              aria-controls="mobile-sidebar"
               onClick={() => setOpen(!open)}
               className="md:hidden inline-flex items-center justify-center rounded-xl p-2.5 hover:bg-gradient-to-br hover:from-purple-50 hover:to-pink-50 border border-transparent hover:border-purple-200 transition-all duration-200"
             >
@@ -143,27 +172,28 @@ export default function Header() {
       {/* MODERN MOBILE MENU - SIDEBAR STYLE (Slide dari kanan, halaman masih kelihatan) */}
       <>
         {/* Overlay - Transparent, halaman masih terlihat */}
-        {open && (
-          <div
-            className="md:hidden fixed inset-0 z-[99] bg-black/40 animate-fadeIn"
-            onClick={() => setOpen(false)}
-          />
-        )}
+        <div
+          aria-hidden={!open}
+          className={`md:hidden fixed inset-0 z-[99] bg-black/40 transition-all duration-300 ${open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+          onClick={() => setOpen(false)}
+        />
 
         {/* Sidebar Menu dari Kiri - Background putih solid */}
         <aside
-          className={`md:hidden fixed top-0 left-0 z-[100] h-screen w-[75%] max-w-[280px] overflow-hidden border-r border-black/10 bg-white shadow-[0_4px_18px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-in-out ${
-            open ? 'translate-x-0' : '-translate-x-full'
+          id="mobile-sidebar"
+          aria-hidden={!open}
+          className={`md:hidden fixed top-0 left-0 z-[101] h-screen overflow-hidden border-r border-black/10 bg-white shadow-lg transition-all duration-300 ease-in-out will-change-transform ${
+            open 
+              ? 'translate-x-0 w-[75%] max-w-[280px] opacity-100 pointer-events-auto' 
+              : '-translate-x-[110%] w-0 max-w-0 opacity-0 pointer-events-none'
           }`}
         >
           {/* Content */}
-          <div className="h-full flex flex-col p-5 sm:p-6 overflow-y-auto">
+          <div className="relative h-full flex flex-col p-5 sm:p-6 overflow-y-auto touch-pan-y">
             {/* Spacing tanpa header "Menu" */}
             <div className="mb-6 sm:mb-8"></div>
 
-            {/* Decorative blur elements - subtle */}
-            <div className="absolute top-16 right-4 w-20 h-20 bg-purple-200/30 rounded-full blur-2xl animate-pulse" />
-            <div className="absolute bottom-28 left-4 w-24 h-24 bg-pink-200/30 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }} />
+            {/* Decorative elements removed to avoid overlap/ghost paint */}
 
             {/* Navigation Menu */}
             <nav className="flex flex-col gap-2 flex-1">

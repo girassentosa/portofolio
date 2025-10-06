@@ -43,7 +43,7 @@ const SkillCard = ({ name, icon, color, delay, category }: SkillCardProps) => {
       suppressHydrationWarning
     >
       <div 
-        className="relative p-3.5 sm:p-4 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:shadow-2xl overflow-hidden"
+        className="relative p-3.5 sm:p-4 rounded-xl bg-gradient-to-br from-white/10 to-white/5 md:backdrop-blur-md border border-white/20 hover:border-white/40 transition-all duration-500 hover:scale-105 hover:shadow-2xl overflow-hidden"
         style={{
           boxShadow: `0 8px 32px ${color}20`
         }}
@@ -51,7 +51,7 @@ const SkillCard = ({ name, icon, color, delay, category }: SkillCardProps) => {
       >
         {/* Glow effect on hover */}
         <div 
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 md:blur-xl"
           style={{
             background: `radial-gradient(circle at center, ${color}40 0%, transparent 70%)`
           }}

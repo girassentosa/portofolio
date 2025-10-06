@@ -78,9 +78,8 @@ const ContactCard = ({ icon, label, value, href, color, delay, available = true 
         target="_blank"
         rel="noopener noreferrer"
         onClick={(e) => !available && e.preventDefault()}
-        className={`relative block p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 transition-all duration-500 overflow-hidden ${
-          available ? 'hover:border-white/40 hover:scale-105 hover:shadow-2xl cursor-pointer' : ''
-        }`}
+        className={`relative block p-3.5 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white/10 to-white/5 md:backdrop-blur-md border border-white/20 transition-all duration-500 overflow-hidden ${
+          available ? 'hover:border-white/40 hover:scale-105 hover:shadow-2xl cursor-pointer' : ''}`}
         style={{
           boxShadow: `0 8px 32px ${color}20`
         }}
@@ -88,7 +87,7 @@ const ContactCard = ({ icon, label, value, href, color, delay, available = true 
       >
         {/* Glow effect on hover */}
         <div 
-          className={`absolute inset-0 opacity-0 ${available ? 'group-hover:opacity-100' : ''} transition-opacity duration-500 blur-xl`}
+          className={`absolute inset-0 opacity-0 ${available ? 'group-hover:opacity-100' : ''} transition-opacity duration-500 md:blur-xl`}
           style={{
             background: `radial-gradient(circle at center, ${color}40 0%, transparent 70%)`
           }}
@@ -96,12 +95,11 @@ const ContactCard = ({ icon, label, value, href, color, delay, available = true 
         />
 
         {/* Content */}
-        <div className="relative z-10 flex items-center gap-4" suppressHydrationWarning>
+        <div className="relative z-10 flex items-center gap-3 sm:gap-3.5 md:gap-4" suppressHydrationWarning>
           {/* Icon */}
           <div 
-            className={`w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center rounded-xl transition-all duration-500 ${
-              available ? 'group-hover:scale-110 group-hover:rotate-6' : ''
-            } flex-shrink-0`}
+            className={`w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 flex items-center justify-center rounded-lg sm:rounded-xl transition-all duration-500 ${
+              available ? 'group-hover:scale-110 group-hover:rotate-6' : ''} flex-shrink-0`}
             style={{
               background: `linear-gradient(135deg, ${color}30, ${color}10)`,
               boxShadow: `0 4px 20px ${color}40`,
@@ -114,10 +112,10 @@ const ContactCard = ({ icon, label, value, href, color, delay, available = true 
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="text-sm sm:text-base font-semibold text-white mb-1">
+            <h3 className="text-xs sm:text-sm md:text-base font-semibold text-white mb-0.5 sm:mb-1">
               {label}
             </h3>
-            <p className="text-xs sm:text-sm text-white/70 truncate">
+            <p className="text-[11px] sm:text-xs md:text-sm text-white/70 truncate">
               {value}
             </p>
             {!available && (
@@ -130,7 +128,7 @@ const ContactCard = ({ icon, label, value, href, color, delay, available = true 
           {/* Arrow Icon */}
           {available && (
             <svg 
-              className="w-5 h-5 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300"
+              className="w-4 h-4 sm:w-5 sm:h-5 text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

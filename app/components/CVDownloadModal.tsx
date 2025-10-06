@@ -45,7 +45,7 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 animate-fadeIn"
+        className="fixed inset-0 bg-black/80 md:backdrop-blur-sm z-50 animate-fadeIn"
         onClick={onClose}
       />
       
@@ -56,7 +56,7 @@ export default function CVDownloadModal({ isOpen, onClose }: CVDownloadModalProp
           onClick={(e) => e.stopPropagation()}
         >
           {/* Gradient Glow */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-2xl opacity-20 blur-xl" />
+          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-2xl opacity-20 md:blur-xl" />
           
           {/* Content */}
           <div className="relative p-6 sm:p-8">

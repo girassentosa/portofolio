@@ -16,6 +16,16 @@ section {
   contain-intrinsic-size: auto 500px;
 }
 
+/* Optimize images for LCP */
+img {
+  content-visibility: auto;
+}
+
+/* Priority hint for hero image */
+img[fetchpriority="high"] {
+  content-visibility: visible;
+}
+
 /* GPU acceleration untuk smooth animations */
 .transform,
 [class*="translate"],
@@ -77,6 +87,19 @@ section {
     -webkit-backdrop-filter: none !important;
   }
   
+  /* Remove ALL blur filters untuk prevent visual artifacts */
+  *[class*="blur-"],
+  .blur-sm,
+  .blur,
+  .blur-md,
+  .blur-lg,
+  .blur-xl,
+  .blur-2xl,
+  .blur-3xl {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+  
   /* Override untuk element yang perlu background solid */
   .backdrop-blur-\[1px\] {
     background-color: transparent !important;
@@ -107,6 +130,20 @@ section {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(0, 0, 0, 0.8) !important;
+  }
+  
+  /* Force header to be solid on mobile */
+  header {
+    background-color: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  /* Force sidebar to be solid with proper stacking */
+  aside {
+    background-color: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 
@@ -167,6 +204,12 @@ html {
 
 body {
   overflow-x: hidden; /* cegah scroll horizontal */
+}
+
+/* Prevent layout shift ketika menu mobile dibuka */
+.mobile-menu-open {
+  width: 100vw;
+  position: fixed;
 }
 
 /* Performance: will-change untuk elemen yang sering berubah */

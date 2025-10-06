@@ -72,8 +72,8 @@ export default function Footer() {
 
       {/* Gradient Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" suppressHydrationWarning>
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-purple-600/20 rounded-full blur-[100px] animate-pulse" suppressHydrationWarning />
-        <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-blue-600/20 rounded-full blur-[100px] animate-pulse" suppressHydrationWarning style={{ animationDelay: '1s' }} />
+        <div className="absolute -top-40 -left-40 w-80 h-80 bg-purple-600/20 rounded-full md:blur-[100px]" suppressHydrationWarning />
+        <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-blue-600/20 rounded-full md:blur-[100px]" suppressHydrationWarning />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24" suppressHydrationWarning>
@@ -108,7 +108,7 @@ export default function Footer() {
                     <div className="relative p-3 rounded-xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 hover:border-white/30 transition-all duration-300 hover:scale-110 hover:-translate-y-1" suppressHydrationWarning>
                       {/* Glow Effect on Hover */}
                       <div 
-                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"
+                        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 md:blur-xl"
                         style={{ background: `${social.color}40` }}
                         suppressHydrationWarning
                       />
@@ -192,7 +192,7 @@ export default function Footer() {
         {/* Divider with Gradient */}
         <div className="relative h-px mb-8" suppressHydrationWarning>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" suppressHydrationWarning />
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/50 via-pink-500/50 to-blue-500/50 blur-sm" suppressHydrationWarning />
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/50 via-pink-500/50 to-blue-500/50 md:blur-sm" suppressHydrationWarning />
         </div>
 
         {/* Bottom Section - Copyright & Credits */}
