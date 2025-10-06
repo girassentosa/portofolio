@@ -1,6 +1,8 @@
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ConditionalHeader from "./components/ConditionalHeader";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -47,6 +49,8 @@ export default function RootLayout({
       >
         <ConditionalHeader />
         {children}
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
