@@ -13,12 +13,10 @@ export default function ConditionalHeader() {
     setMounted(true);
   }, []);
 
+  // TRIPLE CHECK - jangan render apapun sampai mounted DAN pathname ready DAN bukan admin
   if (!mounted) return null;
-
-  // Jangan tampilkan Header jika di halaman admin
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
+  if (!pathname) return null;
+  if (pathname.startsWith("/admin")) return null;
 
   return <Header />;
 }

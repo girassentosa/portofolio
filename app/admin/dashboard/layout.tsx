@@ -14,20 +14,17 @@ export default function AdminLayout({
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Hindari hydration mismatch: render setelah mount saja
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     checkAuth();
-    
-    // Set sidebar state based on screen size
-    const handleResize = () => {
-      setSidebarOpen(window.innerWidth >= 1024);
-    };
-    
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [mounted]);
 
   const checkAuth = async () => {
     try {
@@ -98,7 +95,8 @@ export default function AdminLayout({
     },
   ];
 
-  if (loading) {
+  // Loading state - HANYA show loading, tidak render apapun
+  if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-white text-xl">Loading...</div>
@@ -106,32 +104,33 @@ export default function AdminLayout({
     );
   }
 
+  // Jika tidak ada user (tidak authenticated), jangan render apapun
+  // Middleware akan redirect ke login
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="text-white text-xl">Redirecting...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-900">
-      {/* Sidebar - IMPROVED MOBILE RESPONSIVE DESIGN */}
-      <aside
-        className={`fixed top-0 left-0 z-40 h-screen transition-all duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } w-72 sm:w-80 lg:w-64 bg-gradient-to-b from-gray-800 via-gray-850 to-gray-900 border-r border-gray-700/50 shadow-2xl`}
-      >
+      {/* Sidebar - HANYA render setelah mounted untuk prevent flash */}
+      {/* Menggunakan div bukan aside untuk avoid CSS global conflict */}
+      {mounted && (
+        <div
+          role="complementary"
+          aria-label="Admin Sidebar"
+          className={`fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-gray-800 to-gray-900 border-r border-gray-700/50 shadow-2xl z-40 transition-all duration-300 ease-in-out ${sidebarOpen ? "block" : "hidden"} lg:block`}
+        >
         <div className="h-full px-4 py-6 overflow-y-auto">
-          {/* Logo and Close Button - IMPROVED */}
-          <div className="flex items-center justify-between mb-8 px-2">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <h1 className="text-xl font-bold">
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400">
-                  Admin Panel
-                </span>
-              </h1>
-            </div>
+          {/* Header - Tombol Close */}
+          <div className="flex items-center justify-end mb-6 px-2">
+            {/* Tombol X - close sidebar di mobile */}
             <button
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200"
+              className="lg:hidden p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-all"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -139,12 +138,14 @@ export default function AdminLayout({
             </button>
           </div>
 
-          {/* User Info - IMPROVED DESIGN */}
-          <div className="mb-6 px-3 py-4 bg-gradient-to-br from-gray-700/50 to-gray-800/50 rounded-xl border border-gray-600/30 backdrop-blur-sm shadow-lg">
+          {/* User Info */}
+          <div className="mb-6 px-3 py-4 bg-gray-700/30 rounded-xl border border-gray-600/30">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                {user?.username?.charAt(0).toUpperCase()}
-              </div>
+              <img 
+                src="/images/profile.jpg" 
+                alt="Profile" 
+                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg"
+              />
               <div>
                 <p className="text-white text-sm font-semibold">{user?.username}</p>
                 <p className="text-gray-400 text-xs flex items-center gap-1">
@@ -155,78 +156,75 @@ export default function AdminLayout({
             </div>
           </div>
 
-          {/* Navigation - IMPROVED WITH ICONS & ANIMATIONS */}
-          <nav className="space-y-2 mb-6">
+          {/* Navigation */}
+          <nav className="space-y-2">
             <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Menu</p>
-            {navigation.map((item, index) => {
+            {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={() => {
+                    // Auto-close sidebar di mobile setelah klik
                     if (window.innerWidth < 1024) {
                       setTimeout(() => setSidebarOpen(false), 150);
                     }
                   }}
                   className={`group flex items-center px-3 py-3 rounded-xl transition-all duration-200 ${
                     isActive
-                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/30 scale-[1.02]"
-                      : "text-gray-300 hover:bg-gray-700/50 hover:translate-x-1"
+                      ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg"
+                      : "text-gray-300 hover:bg-gray-700/50"
                   }`}
-                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div className={`${isActive ? "scale-110" : "group-hover:scale-110"} transition-transform duration-200`}>
-                    {item.icon}
-                  </div>
+                  {item.icon}
                   <span className="ml-3 font-medium">{item.name}</span>
                   {isActive && (
-                    <div className="ml-auto w-2 h-2 rounded-full bg-white shadow-lg"></div>
+                    <div className="ml-auto w-2 h-2 rounded-full bg-white"></div>
                   )}
                 </Link>
               );
             })}
-          </nav>
-
-          {/* Logout Button - IMPROVED - Closer to navigation */}
-          <div className="pt-4 px-0">
+            
+            {/* Logout Button */}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center px-4 py-3 text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all duration-200 font-medium border border-red-500/20 hover:border-red-500/40 hover:shadow-lg hover:shadow-red-500/20"
+              className="w-full flex items-center px-3 py-3 text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 rounded-xl transition-all font-medium border border-red-500/20"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
               <span className="ml-3">Logout</span>
             </button>
-          </div>
+          </nav>
         </div>
-      </aside>
+      </div>
+      )}
 
-      {/* Mobile Menu Button - IMPROVED DESIGN */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed top-5 left-5 z-50 p-3 lg:hidden bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-xl shadow-2xl hover:shadow-purple-500/20 hover:scale-105 transition-all duration-200 border border-gray-700/50"
-      >
-        <svg className={`w-6 h-6 transition-transform duration-300 ${sidebarOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {/* Tombol Hamburger - HANYA di mobile, render setelah mounted */}
+      {mounted && (
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="fixed top-5 left-5 z-50 p-3 lg:hidden bg-gradient-to-br from-gray-800 to-gray-900 text-white rounded-xl shadow-2xl border border-gray-700/50 transition-all hover:scale-105"
+        >
+        <svg className={`w-6 h-6 transition-transform ${sidebarOpen ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+      )}
 
-      {/* Overlay for mobile - IMPROVED */}
-      {sidebarOpen && (
+      {/* Overlay - HANYA muncul di mobile ketika sidebar terbuka DAN mounted */}
+      {mounted && sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden animate-fadeIn"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Main Content */}
-      <div className="lg:ml-64 transition-all min-h-screen">
-        {/* Page Content */}
-        <main className="p-4 sm:p-6 md:p-8 lg:p-8 pt-20 lg:pt-6">{children}</main>
+      <div className="lg:ml-64 min-h-screen">
+        <main className="p-4 sm:p-6 md:p-8 pt-20 lg:pt-6">{children}</main>
       </div>
     </div>
   );
 }
-
