@@ -37,13 +37,15 @@ export async function POST(request: NextRequest) {
       user: {
         id: user.id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        profileImage: user.profile_image
       }
     });
 
     response.cookies.set('admin_session', JSON.stringify({
       userId: user.id,
-      username: user.username
+      username: user.username,
+      profileImage: user.profile_image || '/images/profile.jpg'
     }), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

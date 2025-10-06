@@ -9,6 +9,7 @@ export interface User {
   username: string;
   password: string;
   email: string;
+  profile_image?: string;
   created_at: string;
 }
 
@@ -90,6 +91,69 @@ export async function createUser(user: { username: string; password: string; ema
   const { data, error } = await supabase
     .from('users')
     .insert([user])
+    .select()
+    .single();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function updateUserPassword(userId: number, newPassword: string): Promise<User> {
+  const { data, error } = await supabase
+    .from('users')
+    .update({ password: newPassword })
+    .eq('id', userId)
+    .select()
+    .single();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function getUserById(userId: number): Promise<User | null> {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('id', userId)
+    .single();
+  
+  if (error && error.code !== 'PGRST116') throw error;
+  return data;
+}
+
+export async function updateUsername(userId: number, newUsername: string): Promise<User> {
+  const { data, error } = await supabase
+    .from('users')
+    .update({ username: newUsername })
+    .eq('id', userId)
+    .select()
+    .single();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function updateProfileImage(userId: number, profileImage: string): Promise<User> {
+  const { data, error } = await supabase
+    .from('users')
+    .update({ profile_image: profileImage })
+    .eq('id', userId)
+    .select()
+    .single();
+  
+  if (error) throw error;
+  return data;
+}
+
+export async function updateUserProfile(userId: number, updates: { 
+  username?: string; 
+  password?: string; 
+  profile_image?: string 
+}): Promise<User> {
+  const { data, error } = await supabase
+    .from('users')
+    .update(updates)
+    .eq('id', userId)
     .select()
     .single();
   

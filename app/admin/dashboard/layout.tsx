@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import AdminProfileModal from "@/app/components/AdminProfileModal";
+import AdminPhotoPreview from "@/app/components/AdminPhotoPreview";
 
 export default function AdminLayout({
   children,
@@ -15,6 +17,9 @@ export default function AdminLayout({
   const [loading, setLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isPhotoPreviewOpen, setIsPhotoPreviewOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState("/images/profile.jpg");
 
   // Hindari hydration mismatch: render setelah mount saja
   useEffect(() => {
@@ -32,6 +37,10 @@ export default function AdminLayout({
       if (res.ok) {
         const data = await res.json();
         setUser(data.user);
+        // Load profile image from session if available
+        if (data.user?.profileImage) {
+          setProfileImage(data.user.profileImage);
+        }
       } else {
         router.push("/admin/login");
       }
@@ -40,6 +49,11 @@ export default function AdminLayout({
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleProfileUpdate = () => {
+    // Refresh user data after profile update
+    checkAuth();
   };
 
   const handleLogout = async () => {
@@ -141,11 +155,19 @@ export default function AdminLayout({
           {/* User Info */}
           <div className="mb-6 px-3 py-4 bg-gray-700/30 rounded-xl border border-gray-600/30">
             <div className="flex items-center gap-3">
-              <img 
-                src="/images/profile.jpg" 
-                alt="Profile" 
-                className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg"
-              />
+              <button
+                onClick={() => setIsPhotoPreviewOpen(true)}
+                className="group relative overflow-hidden rounded-full cursor-pointer transition-all hover:shadow-xl hover:shadow-purple-500/50"
+              >
+                <img 
+                  src={profileImage} 
+                  alt="Profile" 
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-purple-500/30 shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:border-purple-500"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/profile.jpg';
+                  }}
+                />
+              </button>
               <div>
                 <p className="text-white text-sm font-semibold">{user?.username}</p>
                 <p className="text-gray-400 text-xs flex items-center gap-1">
@@ -225,6 +247,23 @@ export default function AdminLayout({
       <div className="lg:ml-64 min-h-screen">
         <main className="p-4 sm:p-6 md:p-8 pt-20 lg:pt-6">{children}</main>
       </div>
+
+      {/* Photo Preview Modal */}
+      <AdminPhotoPreview
+        isOpen={isPhotoPreviewOpen}
+        onClose={() => setIsPhotoPreviewOpen(false)}
+        photoUrl={profileImage}
+        onEdit={() => setIsProfileModalOpen(true)}
+      />
+
+      {/* Profile Edit Modal */}
+      <AdminProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        currentProfileImage={profileImage}
+        username={user?.username || ''}
+        onUpdate={handleProfileUpdate}
+      />
     </div>
   );
 }
