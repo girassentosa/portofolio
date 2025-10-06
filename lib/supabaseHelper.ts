@@ -319,3 +319,37 @@ export async function deleteProject(id: number): Promise<boolean> {
   return true;
 }
 
+// ============================================
+// PROFILE IMAGE SYNC OPERATIONS
+// ============================================
+
+// Update profile image in home table
+export async function updateHomeProfileImage(profileImage: string): Promise<void> {
+  const { error } = await supabase
+    .from('home')
+    .update({ image: profileImage })
+    .eq('id', 1); // Assuming id 1 is the main home record
+  
+  if (error) throw error;
+}
+
+// Update profile image in about table
+export async function updateAboutProfileImage(profileImage: string): Promise<void> {
+  const { error } = await supabase
+    .from('about')
+    .update({ image: profileImage })
+    .eq('id', 1); // Assuming id 1 is the main about record
+  
+  if (error) throw error;
+}
+
+// Sync profile image across all tables (users, home, about)
+export async function syncProfileImageAcrossTables(userId: number, profileImage: string): Promise<void> {
+  // Update in parallel for better performance
+  await Promise.all([
+    updateProfileImage(userId, profileImage),
+    updateHomeProfileImage(profileImage),
+    updateAboutProfileImage(profileImage)
+  ]);
+}
+

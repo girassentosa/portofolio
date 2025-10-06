@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 const md5 = require('js-md5');
-import { getUserById, getUserByUsername, updateUserProfile } from '@/lib/supabaseHelper';
+import { getUserById, getUserByUsername, updateUserProfile, syncProfileImageAcrossTables } from '@/lib/supabaseHelper';
 
 export async function POST(request: NextRequest) {
   try {
@@ -101,9 +101,14 @@ export async function POST(request: NextRequest) {
 
     // Jika update profile image saja
     if (profileImage !== undefined) {
-      const updatedUser = await updateUserProfile(userId, { 
-        profile_image: profileImage 
-      });
+      // Sinkronisasi foto profile di semua tabel (users, home, about)
+      await syncProfileImageAcrossTables(userId, profileImage);
+      
+      // Get updated user data
+      const updatedUser = await getUserById(userId);
+      if (!updatedUser) {
+        return NextResponse.json({ error: 'User tidak ditemukan' }, { status: 404 });
+      }
 
       // Update session dengan profile image baru
       const newSession = {
@@ -114,7 +119,7 @@ export async function POST(request: NextRequest) {
 
       const response = NextResponse.json({
         success: true,
-        message: 'Foto profil berhasil diubah',
+        message: 'Foto profil berhasil diubah dan disinkronkan ke semua halaman',
         profileImage: updatedUser.profile_image
       });
 

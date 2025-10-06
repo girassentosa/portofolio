@@ -61,12 +61,13 @@ export default function Home() {
       title: "Loading...",
       subtitle: "",
       description: "",
-      profileImage: "/images/profile.jpg",
+      profileImage: null, // Will be loaded from database
       stats: []
     },
     about: {
       whoAmI: "",
-      myApproach: ""
+      myApproach: "",
+      profileImage: null // Will be loaded from database
     },
     skills: [],
     projects: []
@@ -103,8 +104,12 @@ export default function Home() {
   const fetchPortfolioData = async () => {
     try {
       const res = await fetch("/api/portfolio", {
-        // Add cache for better performance
-        next: { revalidate: 60 }
+        // Always fetch fresh data - no cache
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
       });
       const data = await res.json();
       setPortfolioData(data);
@@ -212,8 +217,8 @@ export default function Home() {
               <HomeReveal delay={0.3} direction="right" className="order-1 lg:order-2">
                 <div className="flex justify-center lg:justify-end w-full" suppressHydrationWarning>
                   <ProfileCard
-                    avatarUrl={portfolioData.home.profileImage}
-                    iconUrl={portfolioData.home.profileImage}
+                    avatarUrl={portfolioData.home.profileImage || '/images/profile.jpg'}
+                    iconUrl={portfolioData.home.profileImage || '/images/profile.jpg'}
                     name={portfolioData.home.title}
                     enableTilt={true}
                     enableMobileTilt={isMobile}
@@ -284,6 +289,7 @@ export default function Home() {
                   spotlightRadius={isMobile ? 150 : 280}
                   particleCount={isMobile ? 0 : 6}
                   glowColor="132, 0, 255"
+                  aboutImage={portfolioData.about?.profileImage || portfolioData.about?.image || '/images/profile1.jpg'}
                 />
               </div>
               </MobileOptimizedReveal>

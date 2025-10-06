@@ -188,7 +188,7 @@ const useMobileDetection = () => {
   return isMobile;
 };
 
-export default function MagicBento({ cardData = defaultCardData, textAutoHide = true, enableStars = true, enableSpotlight = true, enableBorderGlow = true, disableAnimations = false, spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS, particleCount = DEFAULT_PARTICLE_COUNT, enableTilt = false, glowColor = DEFAULT_GLOW_COLOR, clickEffect = true, enableMagnetism = true }: any) {
+export default function MagicBento({ cardData = defaultCardData, textAutoHide = true, enableStars = true, enableSpotlight = true, enableBorderGlow = true, disableAnimations = false, spotlightRadius = DEFAULT_SPOTLIGHT_RADIUS, particleCount = DEFAULT_PARTICLE_COUNT, enableTilt = false, glowColor = DEFAULT_GLOW_COLOR, clickEffect = true, enableMagnetism = true, aboutImage = '/images/profile1.jpg' }: any) {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
@@ -330,7 +330,7 @@ export default function MagicBento({ cardData = defaultCardData, textAutoHide = 
             >
               <div className="relative w-full aspect-[3/4] lg:w-[280px] lg:h-[520px] overflow-hidden" style={{ borderRadius: 16 }}>
                 <Image
-                  src="/images/profile1.jpg"
+                  src={aboutImage}
                   alt="Profile"
                   fill
                   className="object-cover"

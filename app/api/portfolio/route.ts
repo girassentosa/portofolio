@@ -13,9 +13,10 @@ export async function GET() {
     const skills = await getSkills();
     const projects = await getProjects();
 
-    // Combine home data with stats
+    // Combine home data with stats and map image to profileImage
     const homeWithStats = home ? {
       ...home,
+      profileImage: home.image, // Map image to profileImage for frontend
       stats: homeStats.map(stat => ({
         value: stat.value,
         label: stat.label
@@ -33,7 +34,8 @@ export async function GET() {
         phone: about.phone || '',
         education: about.education || ''
       },
-      image: about.image || ''
+      image: about.image || '',
+      profileImage: about.image || '' // Map image to profileImage for consistency
     } : null;
 
     // Transform projects to frontend format (snake_case to camelCase)

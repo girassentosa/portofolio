@@ -8,27 +8,12 @@ interface ClientWrapperProps {
 }
 
 const ClientWrapper = ({ children }: ClientWrapperProps) => {
-  // Check if user has visited before
-  const [isLoading, setIsLoading] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const hasVisited = sessionStorage.getItem('hasVisited');
-      return !hasVisited; // Skip loading if already visited this session
-    }
-    return true;
-  });
-  const [showContent, setShowContent] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('hasVisited') === 'true';
-    }
-    return false;
-  });
+  // Always show loading screen on every page load (1 second)
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
 
   const handleLoadComplete = () => {
-    // Mark as visited
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('hasVisited', 'true');
-    }
-    // Smooth transition
+    // Smooth transition after loading complete
     setTimeout(() => {
       setIsLoading(false);
       setShowContent(true);
@@ -39,16 +24,11 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
     // Ensure body stays black during transition
     document.body.style.backgroundColor = '#000000';
     document.documentElement.style.backgroundColor = '#000000';
-    
-    // If already visited, skip loading screen immediately
-    if (!isLoading && showContent) {
-      document.body.style.opacity = '1';
-    }
-  }, [isLoading, showContent]);
+  }, []);
 
   return (
     <>
-      {/* Loading Screen with 5-7 seconds duration */}
+      {/* Loading Screen with 1 second duration */}
       {isLoading && <LoadingScreen onLoadComplete={handleLoadComplete} />}
       
       {/* Main Content - fade in smoothly */}
