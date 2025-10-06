@@ -241,22 +241,20 @@ export default function AdminProfileModal({
                     />
                   </div>
 
-                  {/* Konfirmasi Password - Full Width jika ada password baru */}
-                  {newPassword && (
-                    <div className="md:col-span-2">
-                      <label className="block text-xs font-medium text-gray-400 mb-2">
-                        Ulangi Password Baru
-                      </label>
-                      <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                        placeholder="Ulangi password baru"
-                        required
-                      />
-                    </div>
-                  )}
+                  {/* Konfirmasi Password - Selalu tampil */}
+                  <div className="md:col-span-2">
+                    <label className="block text-xs font-medium text-gray-400 mb-2">
+                      Ulangi Password Baru (Optional)
+                    </label>
+                    <input
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                      placeholder="Ulangi password baru"
+                      required={!!newPassword}
+                    />
+                  </div>
                 </div>
               </div>
 
