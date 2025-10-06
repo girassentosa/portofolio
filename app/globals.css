@@ -64,26 +64,49 @@ section {
   }
 }
 
-/* Optimize backdrop-blur untuk mobile */
+/* Optimize backdrop-blur untuk mobile - DISABLE ALL BLURS */
 @media (max-width: 768px) {
+  /* Remove ALL backdrop-blur di mobile untuk performa optimal */
+  *[class*="backdrop-blur"],
   .backdrop-blur-\[1px\],
   .backdrop-blur-sm,
-  .backdrop-blur-md {
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
     backdrop-filter: none !important;
-    background-color: rgba(0, 0, 0, 0.6) !important;
+    -webkit-backdrop-filter: none !important;
   }
   
-  /* Reduce blur complexity pada mobile */
+  /* Override untuk element yang perlu background solid */
+  .backdrop-blur-\[1px\] {
+    background-color: transparent !important;
+  }
+  
+  .backdrop-blur-sm {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+  }
+  
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+  }
+  
+  /* Reduce blur complexity pada mobile untuk ProfileCard */
   .pc-avatar-content::before {
-    backdrop-filter: blur(15px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: linear-gradient(to bottom, transparent 0%, transparent 60%, rgba(0, 0, 0, 0.9) 90%, rgba(0, 0, 0, 0.95) 100%) !important;
   }
   
   .pc-user-info {
-    backdrop-filter: blur(15px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.85) !important;
   }
   
   .pc-contact-btn {
-    backdrop-filter: blur(5px) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.8) !important;
   }
 }
 

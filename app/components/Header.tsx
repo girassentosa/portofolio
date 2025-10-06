@@ -89,7 +89,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-[100] w-full border-b border-black/10 bg-white/90 text-black shadow-[0_4px_18px_rgba(0,0,0,0.12)] backdrop-blur" suppressHydrationWarning>
+      <header className="fixed top-0 left-0 right-0 z-[100] w-full border-b border-black/10 bg-white/95 md:bg-white/90 text-black shadow-[0_4px_18px_rgba(0,0,0,0.12)] md:backdrop-blur" suppressHydrationWarning>
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8" suppressHydrationWarning>
           <div className="flex h-16 items-center justify-between" suppressHydrationWarning>
             <Link href="#home" className="text-lg font-semibold hover:text-purple-600 transition-colors">
@@ -145,14 +145,14 @@ export default function Header() {
         {/* Overlay - Transparent, halaman masih terlihat */}
         {open && (
           <div
-            className="md:hidden fixed inset-0 z-[99] bg-black/40 backdrop-blur-[2px] animate-fadeIn"
+            className="md:hidden fixed inset-0 z-[99] bg-black/40 animate-fadeIn"
             onClick={() => setOpen(false)}
           />
         )}
 
-        {/* Sidebar Menu dari Kiri - Background putih simple */}
+        {/* Sidebar Menu dari Kiri - Background putih solid */}
         <aside
-          className={`md:hidden fixed top-0 left-0 z-[100] h-screen w-[75%] max-w-[280px] overflow-hidden border-r border-black/10 bg-white/90 backdrop-blur shadow-[0_4px_18px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-in-out ${
+          className={`md:hidden fixed top-0 left-0 z-[100] h-screen w-[75%] max-w-[280px] overflow-hidden border-r border-black/10 bg-white shadow-[0_4px_18px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-in-out ${
             open ? 'translate-x-0' : '-translate-x-full'
           }`}
         >

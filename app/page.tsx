@@ -96,7 +96,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center min-h-[calc(100vh-128px)]" suppressHydrationWarning>
               {/* Text Content */}
               <HomeReveal delay={0.6} direction="left" className="order-2 lg:order-1">
-                <div className="backdrop-blur-[1px] text-left w-full" suppressHydrationWarning>
+                <div className="text-left w-full" suppressHydrationWarning>
                   <p className="text-xs sm:text-sm uppercase tracking-widest text-white/80">{portfolioData.home?.subtitle || 'Loading...'}</p>
                 <h1 className="mt-2 text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
                   <BlurText
@@ -147,7 +147,7 @@ export default function Home() {
                   </a>
                   <button 
                     onClick={() => setIsCVModalOpen(true)}
-                    className="group relative inline-flex items-center justify-center h-12 sm:h-13 px-6 sm:px-8 border-2 border-white/30 text-white text-xs sm:text-sm font-semibold rounded-lg overflow-hidden backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-105"
+                    className="group relative inline-flex items-center justify-center h-12 sm:h-13 px-6 sm:px-8 border-2 border-white/30 text-white text-xs sm:text-sm font-semibold rounded-lg overflow-hidden bg-white/5 md:backdrop-blur-sm transition-all duration-300 hover:border-white/60 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-105"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <span className="relative z-10 flex items-center gap-2">
@@ -163,7 +163,7 @@ export default function Home() {
                 {/* Stats chips */}
                 <div className="mt-5 sm:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3" suppressHydrationWarning>
                   {portfolioData.home?.stats?.map((stat: any, index: number) => (
-                    <div key={index} className="relative inline-flex w-full h-14 sm:h-16 px-3 sm:px-5 items-center justify-center rounded-lg sm:rounded-xl bg-white/10 text-white/90 border border-white/15 overflow-hidden backdrop-blur-sm shadow-[0_6px_22px_rgba(0,0,0,0.25)]" suppressHydrationWarning>
+                    <div key={index} className="relative inline-flex w-full h-14 sm:h-16 px-3 sm:px-5 items-center justify-center rounded-lg sm:rounded-xl bg-white/10 text-white/90 border border-white/15 overflow-hidden md:backdrop-blur-sm shadow-[0_6px_22px_rgba(0,0,0,0.25)]" suppressHydrationWarning>
                     <div className="relative z-10 flex flex-col leading-tight items-center text-center" suppressHydrationWarning>
                         <span className="text-base sm:text-lg font-semibold">{stat.value}</span>
                         <span className="text-[11px] sm:text-[13px] opacity-80">{stat.label}</span>
@@ -395,7 +395,7 @@ export default function Home() {
                 {/* Right Side - Contact Form */}
                 <ScrollReveal direction="right" delay={0.2}>
                 <div className="relative flex items-center" suppressHydrationWarning>
-                  <div className="relative w-full p-5 sm:p-6 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-2xl" suppressHydrationWarning>
+                  <div className="relative w-full p-5 sm:p-6 rounded-xl bg-gradient-to-br from-white/10 to-white/5 md:backdrop-blur-md border border-white/20 shadow-2xl" suppressHydrationWarning>
                     {/* Glow effect */}
                     <div 
                       className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl blur-xl opacity-20"
