@@ -62,6 +62,9 @@ export default function Home() {
       subtitle: "",
       description: "",
       profileImage: null, // Will be loaded from database
+      profile_name: "Taji Jadda Giras Sentosa",
+      profile_title: "Web developer",
+      profile_handle: "tajijaddagirasntosa",
       stats: []
     },
     about: {
@@ -218,8 +221,10 @@ export default function Home() {
                 <div className="flex justify-center lg:justify-end w-full" suppressHydrationWarning>
                   <ProfileCard
                     avatarUrl={portfolioData.home.profileImage || '/images/profile.jpg'}
-                    iconUrl={portfolioData.home.profileImage || '/images/profile.jpg'}
-                    name={portfolioData.home.title}
+                    iconUrl=""
+                    name={portfolioData.home.profile_name || 'Taji Jadda Giras Sentosa'}
+                    title={portfolioData.home.profile_title || 'Web developer'}
+                    handle={portfolioData.home.profile_handle || 'tajijaddagirasntosa'}
                     enableTilt={true}
                     enableMobileTilt={isMobile}
                     mobileTiltSensitivity={isMobile ? 3 : 5}

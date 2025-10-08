@@ -7,6 +7,9 @@ interface HomeData {
   subtitle: string;
   description: string;
   image: string;
+  profile_name?: string;
+  profile_title?: string;
+  profile_handle?: string;
   stats: Array<{ value: string; label: string }>;
 }
 
@@ -19,6 +22,9 @@ export default function HomeAdmin() {
     subtitle: "",
     description: "",
     image: "",
+    profile_name: "",
+    profile_title: "",
+    profile_handle: "",
     stats: [],
   });
 
@@ -147,6 +153,54 @@ export default function HomeAdmin() {
                   />
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+
+        {/* Profile Card Info */}
+        <div className="bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-700">
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-4">Informasi Profile Card</h2>
+          <p className="text-sm text-gray-400 mb-4">Data yang tampil di card foto halaman utama</p>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-white text-sm font-medium mb-2">
+                Nama Lengkap (Profile Card)
+              </label>
+              <input
+                type="text"
+                value={formData.profile_name || ""}
+                onChange={(e) => setFormData({ ...formData, profile_name: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="TAJI JADDA GIRAS SENTOSA"
+              />
+            </div>
+
+            <div>
+              <label className="block text-white text-sm font-medium mb-2">
+                Job Title / Posisi
+              </label>
+              <input
+                type="text"
+                value={formData.profile_title || ""}
+                onChange={(e) => setFormData({ ...formData, profile_title: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Web developer"
+              />
+            </div>
+
+            <div>
+              <label className="block text-white text-sm font-medium mb-2">
+                Username / Handle (tanpa @)
+              </label>
+              <input
+                type="text"
+                value={formData.profile_handle || ""}
+                onChange={(e) => setFormData({ ...formData, profile_handle: e.target.value })}
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="tajijaddagirasntosa"
+              />
+              <p className="text-xs text-gray-400 mt-1">Akan ditampilkan dengan @ di depan</p>
             </div>
           </div>
         </div>

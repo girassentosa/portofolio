@@ -34,7 +34,7 @@ const ANIMATION_CONFIG = {
   INITIAL_X_OFFSET: 70,
   INITIAL_Y_OFFSET: 60,
   DEVICE_BETA_OFFSET: 20
-} as const;
+};
 
 const clamp = (value: number, min = 0, max = 100): number => Math.min(Math.max(value, min), max);
 
@@ -46,8 +46,8 @@ const adjust = (value: number, fromMin: number, fromMax: number, toMin: number, 
 const easeInOutCubic = (x: number): number => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-  avatarUrl = 'profile.jpg',
-  iconUrl = 'profile.jpg',
+  avatarUrl = '/images/profile.jpg',
+  iconUrl = '',
   grainUrl = '',
   behindGradient,
   innerGradient,
@@ -57,23 +57,16 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   enableMobileTilt = false,
   mobileTiltSensitivity = 5,
   miniAvatarUrl,
-  name = 'Taji Jadda Giras Sentosa',
-  title = 'Web developer',
-  handle = 'tajijaddagirasntosa',
+  name = 'Javi A. Torres',
+  title = 'Software Engineer',
+  handle = 'javicodes',
   status = 'Online',
   contactText = 'Contact',
   showUserInfo = true,
   onContactClick
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  const resolvePath = useCallback((path: string | undefined) => {
-    if (!path) return '';
-    const p = String(path);
-    if (p.startsWith('http') || p.startsWith('data:') || p.startsWith('/')) return p;
-    return `/images/${p}`;
-  }, []);
+  const cardRef = useRef<HTMLElement>(null);
 
   const animationHandlers = useMemo(() => {
     if (!enableTilt) return null;
@@ -90,7 +83,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       const centerX = percentX - 50;
       const centerY = percentY - 50;
 
-      const properties = {
+      const properties: Record<string, string> = {
         '--pointer-x': `${percentX}%`,
         '--pointer-y': `${percentY}%`,
         '--background-x': `${adjust(percentX, 0, 100, 35, 65)}%`,
@@ -100,20 +93,14 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         '--pointer-from-left': `${percentX / 100}`,
         '--rotate-x': `${round(-(centerX / 5))}deg`,
         '--rotate-y': `${round(centerY / 4)}deg`
-      } as Record<string, string>;
+      };
 
       Object.entries(properties).forEach(([property, value]) => {
         wrap.style.setProperty(property, value);
       });
     };
 
-    const createSmoothAnimation = (
-      duration: number,
-      startX: number,
-      startY: number,
-      card: HTMLElement,
-      wrap: HTMLElement
-    ) => {
+    const createSmoothAnimation = (duration: number, startX: number, startY: number, card: HTMLElement, wrap: HTMLElement) => {
       const startTime = performance.now();
       const targetX = wrap.clientWidth / 2;
       const targetY = wrap.clientHeight / 2;
@@ -203,8 +190,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       if (!beta || !gamma) return;
 
       animationHandlers.updateCardTransform(
-        card.clientHeight / 2 + (gamma as number) * mobileTiltSensitivity,
-        card.clientWidth / 2 + ((beta as number) - ANIMATION_CONFIG.DEVICE_BETA_OFFSET) * mobileTiltSensitivity,
+        card.clientHeight / 2 + gamma * mobileTiltSensitivity,
+        card.clientWidth / 2 + (beta - ANIMATION_CONFIG.DEVICE_BETA_OFFSET) * mobileTiltSensitivity,
         card,
         wrap
       );
@@ -215,27 +202,26 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   useEffect(() => {
     if (!enableTilt || !animationHandlers) return;
 
-    const card = cardRef.current as HTMLDivElement;
-    const wrap = wrapRef.current as HTMLDivElement;
+    const card = cardRef.current;
+    const wrap = wrapRef.current;
 
     if (!card || !wrap) return;
 
-    const pointerMoveHandler = handlePointerMove as unknown as EventListener;
-    const pointerEnterHandler = handlePointerEnter as unknown as EventListener;
-    const pointerLeaveHandler = handlePointerLeave as unknown as EventListener;
-    const deviceOrientationHandler = handleDeviceOrientation as unknown as EventListener;
+    const pointerMoveHandler = handlePointerMove as any;
+    const pointerEnterHandler = handlePointerEnter as any;
+    const pointerLeaveHandler = handlePointerLeave as any;
+    const deviceOrientationHandler = handleDeviceOrientation as any;
 
     const handleClick = () => {
       if (!enableMobileTilt || location.protocol !== 'https:') return;
       if (typeof (window.DeviceMotionEvent as any).requestPermission === 'function') {
-        (window.DeviceMotionEvent as any)
-          .requestPermission()
+        (window.DeviceMotionEvent as any).requestPermission()
           .then((state: string) => {
             if (state === 'granted') {
               window.addEventListener('deviceorientation', deviceOrientationHandler);
             }
           })
-          .catch((err: unknown) => console.error(err));
+          .catch((err: any) => console.error(err));
       } else {
         window.addEventListener('deviceorientation', deviceOrientationHandler);
       }
@@ -271,71 +257,54 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   ]);
 
   const cardStyle = useMemo(
-    () => {
-      const iconVal = iconUrl ? `url(${resolvePath(iconUrl)})` : 'none';
-      const grainVal = grainUrl ? `url(${resolvePath(grainUrl)})` : 'none';
-      return {
-        '--icon': iconVal,
-        '--grain': grainVal,
-        '--behind-gradient': showBehindGradient ? (behindGradient ?? DEFAULT_BEHIND_GRADIENT) : 'none',
-        '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT
-      } as React.CSSProperties;
-    },
-    [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient, resolvePath]
+    () => ({
+      '--icon': iconUrl ? `url(${iconUrl})` : 'none',
+      '--grain': grainUrl ? `url(${grainUrl})` : 'none',
+      '--behind-gradient': showBehindGradient ? (behindGradient ?? DEFAULT_BEHIND_GRADIENT) : 'none',
+      '--inner-gradient': innerGradient ?? DEFAULT_INNER_GRADIENT
+    } as React.CSSProperties),
+    [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   );
 
   const handleContactClick = useCallback(() => {
     onContactClick?.();
   }, [onContactClick]);
 
-  // Avoid initial flash of unstyled/empty content by pre-setting some CSS vars
-  useEffect(() => {
-    const node = wrapRef.current;
-    if (!node) return;
-    node.style.setProperty('--pointer-x', '50%');
-    node.style.setProperty('--pointer-y', '50%');
-    node.style.setProperty('--pointer-from-left', '0.5');
-    node.style.setProperty('--pointer-from-top', '0.5');
-  }, []);
-
   return (
-    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle} suppressHydrationWarning>
-      <section ref={cardRef} className="pc-card" suppressHydrationWarning>
-        <div className="pc-inside" suppressHydrationWarning>
-          <div className="pc-shine" suppressHydrationWarning />
-          <div className="pc-glare" suppressHydrationWarning />
-          <div className="pc-content pc-avatar-content" suppressHydrationWarning>
+    <div ref={wrapRef} className={`pc-card-wrapper ${className}`.trim()} style={cardStyle}>
+      <section ref={cardRef} className="pc-card">
+        <div className="pc-inside">
+          <div className="pc-shine" />
+          <div className="pc-glare" />
+          <div className="pc-content pc-avatar-content">
             <img
               className="avatar"
-              src={resolvePath(avatarUrl)}
+              src={avatarUrl}
               alt={`${name || 'User'} avatar`}
-              width="400"
-              height="540"
-              loading="eager"
-              fetchPriority="high"
-              onError={e => {
+              loading="lazy"
+              onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
               }}
             />
             {showUserInfo && (
-              <div className="pc-user-info" suppressHydrationWarning>
-                <div className="pc-user-details" suppressHydrationWarning>
-                  <div className="pc-mini-avatar" suppressHydrationWarning>
+              <div className="pc-user-info">
+                <div className="pc-user-details">
+                  <div className="pc-mini-avatar">
                     <img
-                      src={resolvePath(miniAvatarUrl || avatarUrl)}
+                      src={miniAvatarUrl || avatarUrl}
                       alt={`${name || 'User'} mini avatar`}
                       loading="lazy"
-                      onError={e => {
+                      onError={(e) => {
                         const target = e.target as HTMLImageElement;
                         target.style.opacity = '0.5';
-                        target.src = resolvePath(avatarUrl);
+                        target.src = avatarUrl;
                       }}
                     />
                   </div>
-                  <div className="pc-user-text" suppressHydrationWarning>
-                    <div className="pc-handle" suppressHydrationWarning>@{handle}</div>
-                    <div className="pc-status" suppressHydrationWarning>{status}</div>
+                  <div className="pc-user-text">
+                    <div className="pc-handle">@{handle}</div>
+                    <div className="pc-status">{status}</div>
                   </div>
                 </div>
                 <button
@@ -350,8 +319,8 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               </div>
             )}
           </div>
-          <div className="pc-content" suppressHydrationWarning>
-            <div className="pc-details" suppressHydrationWarning>
+          <div className="pc-content">
+            <div className="pc-details">
               <h3>{name}</h3>
               <p>{title}</p>
             </div>
@@ -365,5 +334,4 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 const ProfileCard = React.memo(ProfileCardComponent);
 
 export default ProfileCard;
-
 

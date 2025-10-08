@@ -306,6 +306,8 @@ body {
 }
 .nav-pop:hover::before { opacity: 1; }
 
+/* ==================== PROFILE CARD STYLES ==================== */
+
 .pc-card-wrapper {
   perspective: 500px;
   transform: translate3d(0, 0, 0.1px);
@@ -535,12 +537,10 @@ body {
 
 .pc-avatar-content .avatar {
   width: 100%;
-  height: 100%;
   position: absolute;
   left: 50%;
-  object-fit: cover;
   transform: translateX(-50%) scale(1);
-  bottom: -8px; /* turunkan foto sedikit agar ada spasi dgn title */
+  bottom: 2px;
   opacity: calc(1.75 - var(--pointer-from-center));
 }
 
@@ -642,7 +642,11 @@ body {
   overflow: hidden;
   text-align: center;
   position: relative;
-  transform: none !important;
+  transform: translate3d(
+    calc(var(--pointer-from-left) * -6px + 3px),
+    calc(var(--pointer-from-top) * -6px + 3px),
+    0.1px
+  ) !important;
   z-index: 5;
   mix-blend-mode: luminosity;
 }
@@ -650,38 +654,31 @@ body {
 .pc-details {
   width: 100%;
   position: absolute;
-  top: 3.2em; /* naikkan sedikit posisi teks */
+  top: 2.5em;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
 }
 
 .pc-details h3 {
   font-weight: 600;
-  margin: 0;
-  font-size: clamp(1.4rem, 4.5vw, 2.2rem);
-  margin: 0;
+  margin: 0 0 0.15em 0;
+  font-size: min(5svh, 2.2em);
+  line-height: 1.15;
   background-image: linear-gradient(to bottom, #fff, #6f6fbe);
   background-size: 1em 1.5em;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  line-height: 1.2; /* rapikan jarak baris nama panjang */
-  word-break: break-word; /* pecah kata jika perlu */
-  overflow-wrap: anywhere; /* izinkan membungkus */
-  text-align: center;
 }
 
 .pc-details p {
   font-weight: 600;
   position: relative;
-  top: -6px; /* naikkan sedikit posisi title */
-  white-space: normal; /* izinkan title membungkus saat nama turun baris */
+  top: 0;
+  white-space: nowrap;
   font-size: 16px;
-  margin: 6px auto 0; /* center horizontal */
-  width: auto; /* biarkan lebar mengikuti konten */
-  text-align: center; /* rata tengah */
+  margin: 0 auto;
+  width: min-content;
   background-image: linear-gradient(to bottom, #fff, #4a4ac0);
   background-size: 1em 1.5em;
   -webkit-text-fill-color: transparent;
@@ -723,35 +720,24 @@ body {
 
   .pc-details {
     top: 2em;
-    align-items: center; /* rata tengah pada mobile */
-    width: 92%;
-    margin: 0 auto;
   }
 
   .pc-details h3 {
-    font-size: clamp(1.2rem, 6vw, 1.8rem);
-    text-align: center; /* headline rata tengah di mobile */
-    text-wrap: balance;
+    font-size: min(4svh, 1.8em);
+    line-height: 1.15;
+    margin-bottom: 0.15em;
   }
 
   .pc-details p {
-    font-size: 13px;
-    text-align: center; /* title rata tengah di mobile */
+    font-size: 14px;
+    top: 0;
   }
-
-  /* Pusatkan konten teks di dalam kartu pada mobile */
-  .pc-content { justify-items: center; align-items: center; text-align: center; }
 
   .pc-user-info {
     bottom: 15px;
     left: 15px;
     right: 15px;
     padding: 10px 12px;
-  }
-
-  .pc-content {
-    text-align: center; /* keseluruhan konten teks rata tengah di mobile */
-    transform: none !important;
   }
 
   .pc-mini-avatar {
@@ -788,12 +774,14 @@ body {
   }
 
   .pc-details h3 {
-    font-size: min(3.5svh, 2em);
+    font-size: min(3.5svh, 1.6em);
+    line-height: 1.15;
+    margin-bottom: 0.15em;
   }
 
   .pc-details p {
     font-size: 12px;
-    top: -8px;
+    top: 0;
   }
 
   .pc-user-info {
@@ -834,12 +822,19 @@ body {
     max-height: 320px;
   }
 
+  .pc-details {
+    top: 1.3em;
+  }
+
   .pc-details h3 {
-    font-size: min(3svh, 1.5em);
+    font-size: min(3svh, 1.3em);
+    line-height: 1.15;
+    margin-bottom: 0.15em;
   }
 
   .pc-details p {
     font-size: 11px;
+    top: 0;
   }
 
   .pc-user-info {

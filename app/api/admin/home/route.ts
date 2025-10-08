@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getHomeData, updateHomeData, getHomeStats } from '@/lib/supabaseHelper';
+import { getHomeData, updateHomeData, getHomeStats, updateHomeStats } from '@/lib/supabaseHelper';
 
 // Disable caching for admin routes
 export const dynamic = 'force-dynamic';
@@ -45,8 +45,10 @@ export async function PUT(request: NextRequest) {
     // Update home data (without stats)
     const updatedData = await updateHomeData(homeData);
     
-    // Note: Home stats update requires a separate endpoint or implementation
-    // For now, we just update the main home data
+    // Update home stats if provided
+    if (stats && Array.isArray(stats)) {
+      await updateHomeStats(stats);
+    }
     
     return NextResponse.json(updatedData);
   } catch (error) {

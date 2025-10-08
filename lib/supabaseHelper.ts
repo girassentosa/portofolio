@@ -19,6 +19,9 @@ export interface HomeData {
   subtitle: string;
   description: string;
   image: string;
+  profile_name?: string;
+  profile_title?: string;
+  profile_handle?: string;
   updated_at?: string;
 }
 
@@ -196,6 +199,30 @@ export async function updateHomeData(updates: Partial<HomeData>): Promise<HomeDa
   
   if (error) throw error;
   return data;
+}
+
+export async function updateHomeStats(stats: Array<{ value: string; label: string }>): Promise<boolean> {
+  // Delete existing stats first
+  const { error: deleteError } = await supabase
+    .from('home_stats')
+    .delete()
+    .neq('id', 0); // Delete all rows
+  
+  if (deleteError) throw deleteError;
+
+  // Insert new stats with order_index
+  const statsWithOrder = stats.map((stat, index) => ({
+    value: stat.value,
+    label: stat.label,
+    order_index: index
+  }));
+
+  const { error: insertError } = await supabase
+    .from('home_stats')
+    .insert(statsWithOrder);
+  
+  if (insertError) throw insertError;
+  return true;
 }
 
 // ============================================
